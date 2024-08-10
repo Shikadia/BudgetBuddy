@@ -1,0 +1,15 @@
+﻿using BudgetBuddy.Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BudgetBuddy.Core.Interface
+{
+    public interface ITokenService
+    {
+        Task<string> GenerateToken(AppUser user);
+        string GenerateRefreshToken();
+    }
+}
