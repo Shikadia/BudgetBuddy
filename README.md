@@ -14,8 +14,8 @@
 
 - **Frontend**: React
 - **Backend**: C#
-- **Database**: SQL Server (or any other preferred database)
-- **Authentication**: ...
+- **Database**: SQL Server
+- **Authentication**: Identity
 
 ## Installation
 
@@ -23,7 +23,7 @@
 
 - [.NET SDK](https://dotnet.microsoft.com/download) (for the backend)
 - [Node.js](https://nodejs.org/) (for the frontend)
-- [Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (database)
+- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (database)
 
 ### Backend Setup
 
