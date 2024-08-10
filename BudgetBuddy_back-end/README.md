@@ -15,7 +15,7 @@
 
 - **Framework**: ASP.NET Core
 - **Language**: C#
-- **Database**: SQL Server (or any other supported database)
+- **Database**: SQL Server
 - **Authentication**: Identity
 - **ORM**: Entity Framework Core
 
