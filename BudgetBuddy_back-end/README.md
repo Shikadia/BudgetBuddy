@@ -7,7 +7,6 @@
 - **User Management**: Create, update, delete, and authenticate users.
 - **Expense Tracking**: Record and manage expenses.
 - **Income Management**: Track and manage income records.
-- **Budget Management**: Set and monitor budgets.
 - **Address Management**: Manage user addresses.
 - **Category Management**: Organize expenses into categories.
 
