@@ -1,0 +1,15 @@
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\bin\Debug\net7.0\BudgetBuddy.Core.deps.json
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\bin\Debug\net7.0\BudgetBuddy.Core.dll
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\bin\Debug\net7.0\BudgetBuddy.Core.pdb
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\bin\Debug\net7.0\BudgetBuddy.Domain.dll
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\bin\Debug\net7.0\BudgetBuddy.Domain.pdb
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\BudgetBuddy.Core.csproj.AssemblyReference.cache
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\BudgetBuddy.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\BudgetBuddy.Core.AssemblyInfoInputs.cache
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\BudgetBuddy.Core.AssemblyInfo.cs
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\BudgetBuddy.Core.csproj.CoreCompileInputs.cache
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\BudgetBuddy.Core.csproj.CopyComplete
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\BudgetBuddy.Core.dll
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\refint\BudgetBuddy.Core.dll
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\BudgetBuddy.Core.pdb
+C:\workspace\ALX\AlxProject\BudgetBuddy\BudgetBuddy_back-end\BudgetBuddyAPI\BudgetBuddy.Core\obj\Debug\net7.0\ref\BudgetBuddy.Core.dll

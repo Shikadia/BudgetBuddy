@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<doc>
+	<assembly>
+		<name>BudgetBuddyAPI</name>
+	</assembly>
+	<members>
+		<member name="M:BudgetBuddyAPI.Controllers.AuthController.Register(BudgetBuddy.Core.DTOs.RegistrationDTO)">
+			<summary>
+				Validates, Register, and Logs User In
+			</summary>
+			<returns>Registration Status.</returns>
+		</member>
+	</members>
+</doc>
