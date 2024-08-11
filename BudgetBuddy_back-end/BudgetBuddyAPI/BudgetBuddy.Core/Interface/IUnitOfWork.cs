@@ -12,6 +12,7 @@ namespace BudgetBuddy.Core.Interface
         ICategoryRepository CategoryRepository { get; }
         IIncomeRepository IncomeRepository { get; }
         IExpenseRepository ExpenseRepository { get; }
+        IAddressRepository AddressRepository { get; }
         Task Save();
     }
 }

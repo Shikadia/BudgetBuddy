@@ -5,6 +5,7 @@ using BudgetBuddy.Core.Utilities;
 using BudgetBuddy.Infrastructure.Repository;
 using FluentValidation;
 using Serilog;
+using System.Reflection;
 
 namespace BudgetBuddyAPI.Extensions
 {
@@ -23,9 +24,11 @@ namespace BudgetBuddyAPI.Extensions
 
             services.AddSingleton(Log.Logger);
 
+            //services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddTransient<IValidator<LoginDTO>, LoginUserValidator>();
             services.AddTransient<IValidator<SignUpDTO>, UserValidator>();            
         }

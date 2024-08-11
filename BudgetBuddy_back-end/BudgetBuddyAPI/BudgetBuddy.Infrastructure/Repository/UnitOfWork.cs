@@ -14,6 +14,7 @@ namespace BudgetBuddy.Infrastructure.Repository
         private AppUserRepository _appUserRepository { get; set; } = null!;
         private IncomeRepository _incomeRepository { get; set; } = null!;
         private ExpenseRepository _expenseRepository { get; set; } = null!;
+        private AddressRepository _addressRepository { get; set; } = null;
 
         public UnitOfWork(BudgetBuddyDbContext context)
         {
@@ -26,6 +27,7 @@ namespace BudgetBuddy.Infrastructure.Repository
         public IIncomeRepository IncomeRepository => _incomeRepository ??= new IncomeRepository(_context); 
 
         public IExpenseRepository ExpenseRepository => _expenseRepository ??= new ExpenseRepository(_context);
+        public IAddressRepository AddressRepository => _addressRepository ??= new AddressRepository(_context);
 
         public async Task Save()
         {
