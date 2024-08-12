@@ -3,13 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddyAPI", "BudgetBuddyAPI\BudgetBuddyAPI.csproj", "{D262B901-6B33-4DE7-8D2E-2DC4B58DFD5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddyAPI", "BudgetBuddyAPI\BudgetBuddyAPI.csproj", "{D262B901-6B33-4DE7-8D2E-2DC4B58DFD5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Core", "BudgetBuddy.Core\BudgetBuddy.Core.csproj", "{E228BF00-78F1-402B-BBBD-70280752A25B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddy.Core", "BudgetBuddy.Core\BudgetBuddy.Core.csproj", "{E228BF00-78F1-402B-BBBD-70280752A25B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Domain", "BudgetBuddy.Domain\BudgetBuddy.Domain.csproj", "{54BE04F5-A6F6-4C71-A396-1C709AF683B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddy.Domain", "BudgetBuddy.Domain\BudgetBuddy.Domain.csproj", "{54BE04F5-A6F6-4C71-A396-1C709AF683B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Infrastructure", "BudgetBuddy.Infrastructure\BudgetBuddy.Infrastructure.csproj", "{76196DD4-8DC5-427F-9C75-3604EC2510EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddy.Infrastructure", "BudgetBuddy.Infrastructure\BudgetBuddy.Infrastructure.csproj", "{76196DD4-8DC5-427F-9C75-3604EC2510EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B71D7E9E-DA5A-4500-B95D-DDF822E432E1}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
