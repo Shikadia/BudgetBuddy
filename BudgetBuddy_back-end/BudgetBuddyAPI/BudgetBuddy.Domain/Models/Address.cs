@@ -15,8 +15,8 @@ namespace BudgetBuddy.Domain.Models
         public string City { get; set; }
         public string State { get; set; }
         public string AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
-        public DateTimeOffset CreatedAt { get ; set ; }
-        public DateTimeOffset UpdatedAt { get ; set ; }
+        public AppUser? AppUser { get; set; }
+        public DateTimeOffset CreatedAt { get ; set ; } = DateTimeOffset.Now;
+        public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
     }
 }

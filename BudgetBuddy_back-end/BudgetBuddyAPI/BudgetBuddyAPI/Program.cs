@@ -1,3 +1,5 @@
+using AutoMapper;
+using BudgetBuddy.Core.Utilities.AutoMapper;
 using BudgetBuddy.Infrastructure;
 using BudgetBuddyAPI.Extensions;
 using BudgetBuddyAPI.MiddleWares;
@@ -21,6 +23,7 @@ builder.Services.AddControllersExtension();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerExtension();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors();
 builder.Services.AddAuthenticationExtension(configuration);
 builder.Services.AddAuthorizationExtension();
