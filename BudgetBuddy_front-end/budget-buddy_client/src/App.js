@@ -1,16 +1,17 @@
-import logo from './logo.svg';
-import {BrowserRouter as React, Route, Router, Routes} from "react-router-dom";
-import StoreProvider from './store';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./store";
+import "./App.css";
 import SignUpSignIn from "./pages/SignUp";
+import React from "react";
 
 function App() {
-  return ( 
-    <StoreProvider>
+  return (
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<SignUpSignIn />} />
+        <Route path="/t" element={<div>Hello</div>} />
       </Routes>
-    </StoreProvider>
+    </AuthProvider>
   );
 }
 

@@ -18,3 +18,9 @@ body {
 input {
   font-family: "Montserrat", sans-serif;
 }
+.spinner{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+}

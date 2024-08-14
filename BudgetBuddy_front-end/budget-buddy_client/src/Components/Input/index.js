@@ -1,6 +1,5 @@
 import React from "react";
 import "./styles.css";
-import { type } from "@testing-library/user-event/dist/type";
 
 function Input({ label, state, setState, placeholder, type }) {
   return (
