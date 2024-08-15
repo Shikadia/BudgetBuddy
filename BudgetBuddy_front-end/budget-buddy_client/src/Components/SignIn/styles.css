@@ -18,3 +18,10 @@
     text-align: center;
     margin: 0;
 }
+.p-login {
+    text-align: center;
+    margin: 0; 
+    font-weight: 300 ;
+    font-size: 0.8rem;
+    cursor: pointer;
+}

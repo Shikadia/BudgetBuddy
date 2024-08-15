@@ -27,21 +27,21 @@ namespace BudgetBuddy.Core.Services
         }
         public async Task<ResponseDto<CredentialResponseDTO>> Login(LoginDTO model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email.ToLowerInvariant());
             if (user == null)
             {
                 return ResponseDto<CredentialResponseDTO>.Fail("User does not exist", (int)HttpStatusCode.NotFound);
             }
 
-            if (!await _userManager.CheckPasswordAsync(user, model.Password))
+            if (await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 return ResponseDto<CredentialResponseDTO>.Fail("Invalid user credential", (int)HttpStatusCode.BadRequest);
             }
 
-            if (!user.EmailConfirmed)
-            {
-                return ResponseDto<CredentialResponseDTO>.Fail("User's account is not confirmed", (int)HttpStatusCode.BadRequest);
-            }
+            //if (!user.EmailConfirmed)
+            //{
+            //    return ResponseDto<CredentialResponseDTO>.Fail("User's account is not confirmed", (int)HttpStatusCode.BadRequest);
+            //}
 
             else if ((bool)!user.IsActive)
             {

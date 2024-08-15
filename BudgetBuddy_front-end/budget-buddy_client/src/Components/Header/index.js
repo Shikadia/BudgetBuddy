@@ -1,14 +1,14 @@
 import "./index.css";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
-  function logoutFunc() {
-    alert("Logout!");
-  }
+  const { logout } = useAuth();
 
   return (
     <div className="navbar">
       <p className="navbar-heading">BudgetBuddy.</p>
-      <p onClick={logoutFunc} className="navbar-link">
+      <p onClick={logout} className="navbar-link">
         Logout
       </p>
     </div>
