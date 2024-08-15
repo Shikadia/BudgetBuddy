@@ -1,16 +1,27 @@
 import "./index.css";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Header() {
-  const { logout } = useAuth();
+  const { logout, user , loading} = useAuth();
+  const navigate = useNavigate();
+  
+
+  useEffect(() => {
+    if (user !== null && !loading) {
+      navigate("/dashboard")
+    }
+  }, [user, loading, navigate])
 
   return (
     <div className="navbar">
       <p className="navbar-heading">BudgetBuddy.</p>
-      <p onClick={logout} className="navbar-link">
-        Logout
-      </p>
+      {user && (
+        <p onClick={logout} className="navbar-link">
+          Logout
+        </p>
+      )}
     </div>
   );
 }

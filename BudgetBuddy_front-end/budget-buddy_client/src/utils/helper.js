@@ -24,8 +24,6 @@ export const handleErrors = (error) => {
     error.errors.forEach((err) => {
       toast.error(err);
     });
-  } else {
-    toast.error("An unexpected error occured");
   }
 };
 

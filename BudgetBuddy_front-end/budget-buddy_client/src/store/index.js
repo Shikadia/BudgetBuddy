@@ -1,21 +1,34 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect } from "react";
 import { api } from "../api";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { handleApiErrors } from "../utils/errorHandler";
+import { useDispatch, useSelector } from "react-redux";
+
+import { toast } from "react-toastify";
+
+const login = "login";
+const logout = "logout";
+
+const loginAction = (user, id, token, refreshToken) => ({
+  type: login,
+  payload: { user, id, token, refreshToken },
+});
+
+const logoutAction = () => ({
+  type: logout,
+});
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user, id, token, refreshToken, loading } = useSelector(
+    (state) => state.auth
+  );
 
   const signUp = async (userData) => {
     console.log(process.env);
-    setLoading(true);
     try {
       const response = await api.auth.signUp(userData);
       console.log("SignUp Response:", response);
@@ -23,53 +36,39 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       handleApiErrors(error);
       return null;
-    } finally {
-      setLoading(false);
     }
   };
 
   const login = async (credentials) => {
-    setLoading(true);
     try {
       const response = await api.auth.login(credentials);
       console.log("Signin Response:", response);
-      setUser(response.data.data.id);
-      setToken(response.data.data.token);
-      setRefreshToken(response.data.data.refreshToken);
-      localStorage.setItem("token", response.data.data.token);
-      localStorage.setItem("refreshToken", response.data.data.refreshToken);
+      dispatch(
+        loginAction(
+          response.data.data,
+          response.data.data.id,
+          response.data.data.token,
+          response.data.data.refreshToken
+        )
+      );
       return response;
     } catch (error) {
       handleApiErrors(error);
       return null;
-    } finally {
-      setLoading(false);
     }
   };
 
   const logout = () => {
-    setUser(null);
-    setToken(null);
-    setRefreshToken(null); // Clear refresh token
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    navigate("/t");
+    toast.success("Hope to see you again");
+    navigate("/");
+    dispatch(logoutAction());
   };
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    const storedRefreshToken = localStorage.getItem("refreshToken"); 
-    if (storedToken) {
-      setToken(storedToken);
-    }
-    if (storedRefreshToken) {
-      setRefreshToken(storedRefreshToken); // Set refresh token state
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, token, refreshToken, loading, signUp, login, logout }}
+      value={{ user, id, token, refreshToken, loading, signUp, login, logout }}
     >
       {children}
     </AuthContext.Provider>

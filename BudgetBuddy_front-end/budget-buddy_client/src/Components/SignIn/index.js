@@ -9,19 +9,18 @@ import {
   resetFormFields,
 } from "../../utils/helper";
 import "./styles.css";
+import { useNavigate } from "react-router-dom";
 
 function SignInComponent({ onToggleForm }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setLoading] = useState(false);
-
-  //   const [loginForm, setLoginForm] = useState(false);
   const { login, loading } = useAuth();
+
+  const navigate = useNavigate();
 
   const loginUsingEmail = async () => {
     const validationSchema = getSignValidationSchema();
     try {
-      setLoading(true);
       await validationSchema.validate({
         email,
         password,
@@ -32,19 +31,13 @@ function SignInComponent({ onToggleForm }) {
         password,
       });
 
-      if (response.data.statusCode == 200 && response) {
+      if (response !== null) {
         toast.success("Sign-in successful!");
-
         resetFormFields([setEmail, setPassword]);
-
-        setLoading(false);
-      } else {
-        setLoading(false);
+        navigate("/dashboard");
       }
     } catch (error) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
+      handleErrors(error);
     }
   };
 
@@ -70,12 +63,12 @@ function SignInComponent({ onToggleForm }) {
             placeholder={"Example@123"}
           />
           <Button
-            loading={isLoading}
+            loading={loading}
             text={"Log In using Email & Password"}
             onClick={loginUsingEmail}
           />
           <p className="signup-wrapper_p_tag">or</p>
-          <Button loading={isLoading} text={"Google Login"} blue={true} />
+          <Button loading={loading} text={"Google Login"} orange={true} />
           <p className="p-login" onClick={onToggleForm}>
             Do Not Have An Account? Click here
           </p>
