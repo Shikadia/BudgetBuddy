@@ -21,10 +21,19 @@
   }
   
   .btn-blue {
+    background-color: var(--theme);
+    color: #fff;
+  }
+  .btn-orange {
     background-color: orange;
     color: #fff;
   }
   
+  .btn-orange:hover {
+    background-color: #fff !important;
+    color: var(--theme) !important;
+    transition: all 0.3s;
+  }
   .btn-blue:hover {
     background-color: #fff !important;
     color: var(--theme) !important;
