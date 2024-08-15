@@ -25,14 +25,14 @@ function SignUpComponent({onToggleForm}) {
     const validationSchema = getSignUpValidationSchema();
     try {
       setLoading(true);
-      // await validationSchema.validate({
-      //   firstName,
-      //   lastName,
-      //   email,
-      //   phoneNumber,
-      //   password,
-      //   confirmPassword,
-      // });
+      await validationSchema.validate({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        password,
+        confirmPassword,
+      });
 
       const response = await signUp({
         firstName,
