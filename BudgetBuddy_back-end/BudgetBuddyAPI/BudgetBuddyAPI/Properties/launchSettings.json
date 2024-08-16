@@ -1,23 +1,16 @@
-﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:12449",
-      "sslPort": 44315
-    }
-  },
+{
   "profiles": {
     "BudgetBuddyAPI": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7291;http://localhost:5017",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GOOGLE_CLIENT_ID": "537340714752-uh7vgr2rqcfjrb6g0i7rthise1cj29qf.apps.googleusercontent.com",
+        "GOOGLE_CLIENT_SECRET": "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"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7291;http://localhost:5017"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -26,6 +19,15 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:12449",
+      "sslPort": 44315
     }
   }
 }

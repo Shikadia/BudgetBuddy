@@ -1,0 +1,95 @@
+[
+  {
+    "id": "98765432-10fe-dcba-9876-426614174000",
+    "FirstName": "Chinedu",
+    "LastName": "Otuka",
+    "Email": "chineduotuka@gmail.com",
+    "IsActive": true,
+    "RefreshToken": "",
+    "RefreshTokenExpiryTime": "",
+    "Balance": 2500.00,
+    "PhoneNumber": "08135130055",
+    "CreatedAt": "2023-11-23T11:00:00Z",
+    "UpdatedAt": "2023-11-23T11:00:00Z",
+    "Addresses": [
+      {
+        "Id": "fedcba98-7654-3210-fedc-426614174001",
+        "Name": "flat 12, 49 Awofodu",
+        "City": "Shomolu",
+        "State": "Lagos",
+        "AppUserId": "98765432-10fe-dcba-9876-426614174000",
+        "CreatedAt": "2023-11-23T11:00:00Z",
+        "UpdatedAt": "2023-11-23T11:00:00Z"
+      }
+    ],
+    "Incomes": [
+      {
+        "Id": "fedcba98-7654-3210-fedc-426614174002",
+        "Amount": 3500.00,
+        "Description": "Freelance",
+        "AppUserId": "98765432-10fe-dcba-9876-426614174000",
+        "Tag": "Salary",
+        "CreatedAt": "2023-11-23T11:00:00Z",
+        "UpdatedAt": "2023-11-23T11:00:00Z"
+      }
+    ],
+    "Expenses": [
+      {
+        "Id": "dcba9876-5432-10fe-dcba-426614174003",
+        "Amount": 50.00,
+        "Description": "Coffee",
+        "AppUserId": "98765432-10fe-dcba-9876-426614174000",
+        "Tag": "food",
+        "CreatedAt": "2023-11-23T11:00:00Z",
+        "UpdatedAt": "2023-11-23T11:00:00Z"
+      }
+    ]
+  },
+  {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "FirstName": "Iheanyichukwu",
+    "LastName": "Otuka",
+    "Email": "otukachinedu661@gmail.com",
+    "IsActive": true,
+    "RefreshToken": "",
+    "RefreshTokenExpiryTime": "",
+    "Balance": 2500.00,
+    "PhoneNumber": "09071530165",
+    "CreatedAt": "2023-11-23T11:00:00Z",
+    "UpdatedAt": "2023-11-23T11:00:00Z",
+    "Addresses": [
+      {
+        "Id": "456e789a-bc12-3456-789a-426614174001",
+        "Name": "flat 12, 49 Awofodu",
+        "City": "Shomolu",
+        "State": "Lagos",
+        "AppUserId": "123e4567-e89b-12d3-a456-426614174000",
+        "CreatedAt": "2023-11-23T11:00:00Z",
+        "UpdatedAt": "2023-11-23T11:00:00Z"
+      }
+    ],
+    "Incomes": [
+      {
+        "Id": "789a123b-cdef-4567-89ab-426614174003",
+        "Amount": 3500.00,
+        "Description": "Freelance",
+        "AppUserId": "123e4567-e89b-12d3-a456-426614174000",
+        "Tag": "Business",
+        "CreatedAt": "2023-11-23T11:00:00Z",
+        "UpdatedAt": "2023-11-23T11:00:00Z"
+      }
+    ],
+    "Expenses": [
+      {
+        "Id": "abc1234-5678-90ab-cdef-426614174004",
+        "Amount": 50.00,
+        "Description": "Coffee",
+        "Tag" :  "IceCream",
+        "AppUserId": "123e4567-e89b-12d3-a456-426614174000",
+        "CategoryId": "zyx1234-5678-90ab-cdef-426614174005",
+        "CreatedAt": "2023-11-23T11:00:00Z",
+        "UpdatedAt": "2023-11-23T11:00:00Z"
+      }
+    ]
+  }
+]

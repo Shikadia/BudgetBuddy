@@ -12,7 +12,6 @@ namespace BudgetBuddy.Domain.Models
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public decimal? Balance { get; set; }
-        public string PhoneNumber { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Income>? Incomes { get; set; }
         public ICollection<Expense>? Expenses { get; set; }

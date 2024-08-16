@@ -3,6 +3,7 @@ using BudgetBuddy.Core.Utilities.AutoMapper;
 using BudgetBuddy.Infrastructure;
 using BudgetBuddyAPI.Extensions;
 using BudgetBuddyAPI.MiddleWares;
+using Microsoft.Extensions.Options;
 using Serilog;
 
 

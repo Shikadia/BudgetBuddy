@@ -28,6 +28,7 @@
         "Amount": 3500.00,
         "Description": "Freelance",
         "AppUserId": "98765432-10fe-dcba-9876-426614174000",
+        "Tag": "Salary",
         "CreatedAt": "2023-11-23T11:00:00Z",
         "UpdatedAt": "2023-11-23T11:00:00Z"
       }
@@ -38,7 +39,7 @@
         "Amount": 50.00,
         "Description": "Coffee",
         "AppUserId": "98765432-10fe-dcba-9876-426614174000",
-        "CategoryId": "xyz1234-5678-90ab-cdef-426614174005",
+        "Tag": "food",
         "CreatedAt": "2023-11-23T11:00:00Z",
         "UpdatedAt": "2023-11-23T11:00:00Z"
       }

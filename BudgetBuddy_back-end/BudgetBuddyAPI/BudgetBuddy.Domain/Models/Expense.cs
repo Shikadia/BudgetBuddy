@@ -9,8 +9,7 @@ namespace BudgetBuddy.Domain.Models
         public string Description { get; set; }
         public string AppUSerID {  get; set; }
         public AppUser AppUser { get; set; }
-        public string CategoryID {  get; set; } 
-        public Category Category { get; set; }
+        public string Tag { get; set; }
         public DateTimeOffset CreatedAt { get ; set ; }
         public DateTimeOffset UpdatedAt { get ; set ; }
     }

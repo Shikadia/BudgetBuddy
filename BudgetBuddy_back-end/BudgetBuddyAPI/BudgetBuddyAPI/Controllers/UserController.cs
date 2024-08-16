@@ -16,9 +16,11 @@ namespace BudgetBuddyAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly ITransactionService _transactionService;
+        public UserController(IUserService userService, ITransactionService transactionService)
         {
             _userService = userService;
+            _transactionService = transactionService;
         }
         
         /// <summary>
@@ -51,5 +53,30 @@ namespace BudgetBuddyAPI.Controllers
 
             return StatusCode(result.StatusCode, result);
         }
+        [HttpGet]
+        [Route("get-all-transaction")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAllTransaction([FromQuery]int pageNumber, int pageSize)
+        {
+            var userId = "123e4567-e89b-12d3-a456-426614174000";
+            var result = await _transactionService.GetAllTransactions(pageSize, pageNumber, userId);
+
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpPost]
+        [Route("add-transaction")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddTransaction([FromBody]TransactionRequestDTO request, [FromQuery] int pageNumber, int pageSize)
+        {
+            var userId = "123e4567-e89b-12d3-a456-426614174000";
+            var result = await _transactionService.AddTransaction(pageSize, pageNumber, userId, request);
+
+            return StatusCode(result.StatusCode, result);
+        }
+
     }
 }

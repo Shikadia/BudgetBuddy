@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddyAPI", "BudgetBuddyAPI\BudgetBuddyAPI.csproj", "{8F7DFC43-19ED-4BFF-B10B-EBD838C3844C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddyAPI", "BudgetBuddyAPI\BudgetBuddyAPI.csproj", "{8F7DFC43-19ED-4BFF-B10B-EBD838C3844C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Core", "BudgetBuddy.Core\BudgetBuddy.Core.csproj", "{A289657A-B040-42BE-922F-CF67A94FE624}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddy.Core", "BudgetBuddy.Core\BudgetBuddy.Core.csproj", "{A289657A-B040-42BE-922F-CF67A94FE624}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Domain", "BudgetBuddy.Domain\BudgetBuddy.Domain.csproj", "{10752504-12D8-41D1-B6D2-E856B6806870}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddy.Domain", "BudgetBuddy.Domain\BudgetBuddy.Domain.csproj", "{10752504-12D8-41D1-B6D2-E856B6806870}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Infrastructre", "BudgetBuddy.Infrastructre\BudgetBuddy.Infrastructre.csproj", "{4FA2BCF9-A4D1-43EA-B5D1-16D123ABF3F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Infrastructure", "BudgetBuddy.Infrastructure\BudgetBuddy.Infrastructure.csproj", "{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{10752504-12D8-41D1-B6D2-E856B6806870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10752504-12D8-41D1-B6D2-E856B6806870}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10752504-12D8-41D1-B6D2-E856B6806870}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4FA2BCF9-A4D1-43EA-B5D1-16D123ABF3F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4FA2BCF9-A4D1-43EA-B5D1-16D123ABF3F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4FA2BCF9-A4D1-43EA-B5D1-16D123ABF3F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4FA2BCF9-A4D1-43EA-B5D1-16D123ABF3F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

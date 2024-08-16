@@ -8,5 +8,6 @@ namespace BudgetBuddy.Core.Interface
         Task<ResponseDto<SignUpResponseDTO>> SignUp(SignUpDTO model);
         Task<ResponseDto<RefreshTokenResponseDTO>> RefreshTokenAsync(RefreshTokenRequestDTO refreshToken);
         Task<ResponseDto<string>> ChangePassword(ChangePasswordDTO model, string userId);
+        Task<ResponseDto<CredentialResponseDTO>> GoogleSignInUp(string token, string role);
     }
 }

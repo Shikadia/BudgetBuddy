@@ -28,7 +28,7 @@ namespace BudgetBuddy.Core.Services
             if (user == null)
             {
                 _logger.Information("User not found when trying to Add Address");
-                return ResponseDto<string>.Fail("user not foun", (int)HttpStatusCode.BadRequest);
+                return ResponseDto<string>.Fail("user not found", (int)HttpStatusCode.BadRequest);
             }
 
             requestDTO.AppUserId = id;

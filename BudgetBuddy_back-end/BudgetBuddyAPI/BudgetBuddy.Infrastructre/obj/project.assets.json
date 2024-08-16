@@ -4324,9 +4324,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\workspace\\ALX\\AlxProject\\BudgetBuddy\\BudgetBuddy_back-end\\BudgetBuddyAPI\\BudgetBuddy.Infrastructre\\BudgetBuddy.Infrastructre.csproj",
-      "projectName": "BudgetBuddy.Infrastructre",
-      "projectPath": "C:\\workspace\\ALX\\AlxProject\\BudgetBuddy\\BudgetBuddy_back-end\\BudgetBuddyAPI\\BudgetBuddy.Infrastructre\\BudgetBuddy.Infrastructre.csproj",
+      "projectUniqueName": "C:\\workspace\\ALX\\AlxProject\\BudgetBuddy\\BudgetBuddy_back-end\\BudgetBuddyAPI\\BudgetBuddy.Infrastructre\\BudgetBuddy.Infrastructure.csproj",
+      "projectName": "BudgetBuddy.Infrastructure",
+      "projectPath": "C:\\workspace\\ALX\\AlxProject\\BudgetBuddy\\BudgetBuddy_back-end\\BudgetBuddyAPI\\BudgetBuddy.Infrastructre\\BudgetBuddy.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
       "outputPath": "C:\\workspace\\ALX\\AlxProject\\BudgetBuddy\\BudgetBuddy_back-end\\BudgetBuddyAPI\\BudgetBuddy.Infrastructre\\obj\\",
       "projectStyle": "PackageReference",

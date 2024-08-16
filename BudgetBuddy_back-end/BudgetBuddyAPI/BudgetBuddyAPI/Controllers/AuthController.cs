@@ -70,5 +70,15 @@ namespace BudgetBuddyAPI.Controllers
 
             return StatusCode(response.StatusCode, response);
         }
+
+        [AllowAnonymous]
+        [HttpPost("google-signin")]
+        public async Task<IActionResult> GoogleSignIn([FromBody] GoogleSignInDto request)
+        {
+            var result = await _authService.GoogleSignInUp(request.TokenId, request.Role);
+
+            return StatusCode(result.StatusCode, result);
+        }
+
     }
 }
