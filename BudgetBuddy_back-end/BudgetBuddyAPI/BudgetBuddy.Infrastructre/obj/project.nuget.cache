@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n/xTG+kG71wol4whlSSUrzlSARKoFVqbTEhuArWoPfURHDsAUGBLTm0URRr1/+UOabgaOOtOfw6zJ0CGisCgsg==",
+  "dgSpecHash": "Gq89OPz2UtPNDKAJi8rIn14FdBynSDoTLgzXTmFb8lnnZJf2x1h1F2ozpjRKuatGIXSLXavNhmyjNukddyW2bg==",
   "success": true,
-  "projectFilePath": "C:\\workspace\\ALX\\AlxProject\\BudgetBuddy\\BudgetBuddy_back-end\\BudgetBuddyAPI\\BudgetBuddy.Infrastructre\\BudgetBuddy.Infrastructre.csproj",
+  "projectFilePath": "C:\\workspace\\ALX\\AlxProject\\BudgetBuddy\\BudgetBuddy_back-end\\BudgetBuddyAPI\\BudgetBuddy.Infrastructre\\BudgetBuddy.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\fluentvalidation\\11.9.2\\fluentvalidation.11.9.2.nupkg.sha512",

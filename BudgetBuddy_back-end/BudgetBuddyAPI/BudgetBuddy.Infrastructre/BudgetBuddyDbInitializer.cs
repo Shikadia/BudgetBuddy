@@ -15,7 +15,7 @@ namespace BudgetBuddy.Infrastructure
             {
                 using var serviceScope = builder.ApplicationServices.CreateScope();
                 var context = serviceScope.ServiceProvider.GetService<BudgetBuddyDbContext>();
-                string filePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, @"BudgetBuddy.Infrastructure\Data\");
+                string filePath = "C:\\workspace\\ALX\\AlxProject\\BudgetBuddy\\BudgetBuddy_back-end\\BudgetBuddyAPI\\BudgetBuddy.Infrastructure\\Data\\Roles.json"; /*Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, @"BudgetBuddy.Infrastructure\Data\");*/
                 if (await context.Database.EnsureCreatedAsync()) return;
 
                 if (!context.Roles.Any())
@@ -36,11 +36,6 @@ namespace BudgetBuddy.Infrastructure
                         userManager.AddToRoleAsync(user, UserRole.Admin.ToString());
                         context.AppUser.AddAsync(user);
                     });
-
-                    var readText1 = await File.ReadAllTextAsync(filePath + "Categories.json");
-                    var categories = JsonConvert.DeserializeObject<List<Category>>(readText1);
-                    context.Category.AddRange(categories);
-                    await context.SaveChangesAsync();
                 }                
             }
             catch (Exception ex)

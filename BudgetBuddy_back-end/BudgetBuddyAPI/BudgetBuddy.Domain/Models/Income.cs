@@ -8,6 +8,7 @@ namespace BudgetBuddy.Domain.Models
         public decimal Amount { get; set; }
         public string Description { get; set; }
         public string AppUserID { get; set; }
+        public string Tag { get; set; }
         public AppUser AppUser { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }

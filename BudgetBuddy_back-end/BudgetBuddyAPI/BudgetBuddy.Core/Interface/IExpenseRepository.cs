@@ -11,7 +11,7 @@ namespace BudgetBuddy.Core.Interface
         /// <returns>An object of expnse if found, or null if not found</returns>
         Task<Expense> GetExpenseByIdAsync(string id);
         IQueryable<Expense> GetExpenseByDateAysnc(DateTime date);
-        IQueryable<Expense> GetAllExpensesAsync();
+        IQueryable<Expense> GetAllExpensesAsync(string id);
         IQueryable<Expense> GetAllExpensesByDateRangeAsync(DateTime start, DateTime end);
     }
 }

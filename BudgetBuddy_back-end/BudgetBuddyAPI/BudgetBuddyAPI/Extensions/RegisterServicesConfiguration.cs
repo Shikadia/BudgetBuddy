@@ -29,8 +29,10 @@ namespace BudgetBuddyAPI.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITransactionService, TransactionService>();
             services.AddTransient<IValidator<LoginDTO>, LoginUserValidator>();
-            services.AddTransient<IValidator<SignUpDTO>, UserValidator>();            
+            services.AddTransient<IValidator<SignUpDTO>, UserValidator>(); 
+            
         }
     }
 }
