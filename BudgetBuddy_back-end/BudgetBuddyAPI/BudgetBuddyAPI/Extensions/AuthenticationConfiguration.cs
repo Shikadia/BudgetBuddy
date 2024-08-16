@@ -9,8 +9,8 @@ namespace BudgetBuddyAPI.Extensions
         public static void AddAuthenticationExtension(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtConfig = configuration.GetSection("Jwt");
-            var googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-            var googleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+            var googleConfig = configuration.GetSection("google_auth");
+            var x = googleConfig.GetSection("ClientId").Value;
             services.AddAuthentication(v =>
             {
                 v.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -31,8 +31,8 @@ namespace BudgetBuddyAPI.Extensions
              })
              .AddGoogle(options =>
              {
-                 options.ClientId = googleClientId;
-                 options.ClientSecret = googleClientSecret;
+                 options.ClientId = googleConfig.GetSection("ClientId").Value;
+                 options.ClientSecret = googleConfig.GetSection("secret").Value;
                  options.CallbackPath = "/auth/google-callback";
              });
         }
