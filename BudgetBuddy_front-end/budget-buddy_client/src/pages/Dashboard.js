@@ -7,47 +7,41 @@ import AddIncome from "../Components/Modals/addIncome";
 import moment from "moment";
 import { toast } from "react-toastify";
 import TransactionTable from "../Components/TansactionsTable";
+import { useSelector } from "react-redux";
+import { useAuth } from "../hooks/useAuth";
+import { handleErrors } from "../utils/helper";
+import Spinner from "../Components/Loader/spinner";
 
 function Dashboard() {
-  const sampleTransactions = [
-    {
-      name: "Pay day",
-      type: "income",
-      date: "2023-01-15",
-      amount: 2000,
-      tag: "salary",
-    },
-    {
-      name: "Dinner",
-      type: "expense",
-      date: "2023-01-20",
-      amount: 500,
-      tag: "food",
-    },
-    {
-      name: "Books",
-      type: "expense",
-      date: "2023-01-25",
-      amount: 300,
-      tag: "education",
-    },
-  ];
+  const { addtransactions, loading, getalltransactions} = useAuth();
   const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
   const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
   const [currentBalance, setCurrentBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [income, setIncome] = useState(0);
   const [expenses, setExpenses] = useState(0);
+  const transacttate = useSelector((state) => state.usertransaction)
+
+  useEffect(() => {
+    console.log("checking transactions: ", transactions);
+    // Fetch transactions and update state on page reload
+    const x = transacttate.transaction.listOfTransactions.pageItems
+    const w = transacttate.transaction
+    console.log("checking transactions1: ", x);
+    console.log("checking state: ", w);
+    fetchTransactions();
+    // console.log("checking transactions1: ", x);
+  }, []);
 
   const processChartData = () => {
     const balanceData = [];
     const spendingData = {};
 
-    sampleTransactions.forEach((transaction) => {
+    transactions.forEach((transaction) => {
       const monthYear = moment(transaction.date).format("MMM YYYY");
       const tag = transaction.tag;
 
-      if (transaction.type === "income") {
+      if (transaction.type === "Income") {
         if (balanceData.some((data) => data.month === monthYear)) {
           balanceData.find((data) => data.month === monthYear).balance +=
             transaction.amount;
@@ -95,60 +89,54 @@ function Dashboard() {
     setIsIncomeModalVisible(false);
   };
 
-  useEffect(() => {
-    /// update the trancstions when something occurs
-  }, []);
-
   const onFinish = (values, type) => {
     const newTransaction = {
       type: type,
-      date: moment(values.date).format("YYYY-MM-DD"),
+      dateTime: moment(values.date).format("YYYY-MM-DD"),
       amount: parseFloat(values.amount),
       tag: values.tag,
-      name: values.name,
+      description: values.name,
     };
 
-    setTransactions([...transactions, newTransaction]);
-    setIsExpenseModalVisible(false);
-    setIsIncomeModalVisible(false);
-    // addTransaction(newTransaction);
-    calculateBalance();
+    addTransaction(newTransaction);
   };
 
-  const calculateBalance = () => {
-    let incomeTotal = 0;
-    let expensesTotal = 0;
+  const fetchTransactions = async () => {
+    try {
+      const response = await getalltransactions();
 
-    sampleTransactions.forEach((transaction) => {
-      if (transaction.type === "income") {
-        incomeTotal += transaction.amount;
-      } else {
-        expensesTotal += transaction.amount;
+      if (response && response.data && response.data.data && response.data.data.listOfTransactions) {
+        const fetchedTransactions = response.data.data.listOfTransactions.pageItems;
+        setTransactions(fetchedTransactions);
+        setIncome(response.data.data.totalIncome);
+        setExpenses(response.data.data.totalExpense);
+        setCurrentBalance(response.data.data.totalAmount);
+
       }
-    });
-
-    setIncome(incomeTotal);
-    setExpenses(expensesTotal);
-    setCurrentBalance(incomeTotal - expensesTotal);
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+      handleErrors(error);
+    }
   };
 
-  useEffect(() => {
-    calculateBalance();
-  }, [transactions]);
 
-  async function fetchTransactions() {
-   
-    //   const q = query(collection(db, `users/${user.uid}/transactions`));
-    //   const querySnapshot = await getDocs(q);
-      let transactionsArray = [];
-      sampleTransactions.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        transactionsArray.push(doc);
-      });
-      setTransactions(transactionsArray);
-      toast.success("Transactions Fetched!");
- 
-  }
+  const addTransaction = async (newTransaction) => {
+    try {
+      const response = await addtransactions(newTransaction);
+      const x = response.data.data.listOfTransactions.pageItems;
+      console.log("transactions add transactions: ", x);
+      console.log(response.data.data.totalAmount);
+      setTransactions(x);
+      setCurrentBalance(response.data.data.totalAmount);
+      fetchTransactions();
+
+      if (response !== null) {
+        toast.success("Transaction successful!");
+      }
+    } catch (error) {
+      handleErrors(error);
+    }
+  };
 
   const balanceConfig = {
     data: balanceData,
@@ -173,26 +161,32 @@ function Dashboard() {
   return (
     <div>
       <Header />
-      <Cards
-        showExpenseModal={showExpenseModal}
-        showIncomeModal={showIncomeModal}
-        currentBalance={currentBalance}
-        income={income}
-        expenses={expenses}
-        cardStyle={cardStyle}
-        // reset={reset}
-      />
-      <AddExpense
-        isExpenseModalVisible={isExpenseModalVisible}
-        handleExpenseCancel={handleExpenseCancel}
-        onFinish={onFinish}
-      />
-      <AddIncome
-        isIncomeModalVisible={isIncomeModalVisible}
-        handleIncomeCancel={handleIncomeCancel}
-        onFinish={onFinish}
-      />
-      <TransactionTable transactions={sampleTransactions} />
+      {loading ? (
+        <Spinner/>
+      ) : (
+        <>
+          <Cards
+            showExpenseModal={showExpenseModal}
+            showIncomeModal={showIncomeModal}
+            currentBalance={currentBalance}
+            income={income}
+            expenses={expenses}
+            cardStyle={cardStyle}
+            // reset={reset}
+          />
+          <AddExpense
+            isExpenseModalVisible={isExpenseModalVisible}
+            handleExpenseCancel={handleExpenseCancel}
+            onFinish={onFinish}
+          />
+          <AddIncome
+            isIncomeModalVisible={isIncomeModalVisible}
+            handleIncomeCancel={handleIncomeCancel}
+            onFinish={onFinish}
+          />
+          <TransactionTable transactions={transacttate.transaction.listOfTransactions.pageItems} />
+        </>
+      )}
     </div>
   );
 }

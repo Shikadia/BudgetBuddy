@@ -96,7 +96,7 @@ namespace BudgetBuddy.Core.Services
                 {
                     var expense = new Expense
                     {
-                        Description = requestDTO.Description,
+                        Description = requestDTO.Description ?? "",
                         Tag = requestDTO.Tag,
                         Amount = amount,
                         AppUSerID = user.Id,
@@ -143,7 +143,8 @@ namespace BudgetBuddy.Core.Services
                     Type = "Income",
                     Amount = income.Amount,
                     Date = income.CreatedAt,
-                    CategoryOrTag =  "No Tag"
+                    CategoryOrTag =  "No Tag",
+                    Description = income.Description,
                 });
 
                 var expenseDtoQuery = expenses.Select(expense => new ListOfTransactions
@@ -152,7 +153,8 @@ namespace BudgetBuddy.Core.Services
                     Type = "Expense",
                     Amount = expense.Amount,
                     Date = expense.CreatedAt,
-                    CategoryOrTag = expense.Tag ?? "unCategorized"
+                    CategoryOrTag = expense.Tag ?? "unCategorized",
+                    Description = expense.Description,
                 });
 
                 var allTransactionsQuery = incomeDtoQuery.Concat(expenseDtoQuery).OrderBy(x => x.Date).AsQueryable();
@@ -165,7 +167,9 @@ namespace BudgetBuddy.Core.Services
                 var responseDto = new TransactionResponseDTO
                 {
                     ListOfTransactions = paginatedResult,
-                    TotalAmount = currentBalance
+                    TotalAmount = currentBalance,
+                    TotalIncome = incomes.Sum(i => i.Amount),
+                    TotalExpense = expenses.Sum(e => e.Amount),
                 };
 
                 _logger.Information($"Transactions successfully retrieved for {user.Email}");

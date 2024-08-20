@@ -4,13 +4,14 @@ import Input from "../Input";
 import { Option } from "antd/es/mentions";
 
 function TransactionTable({ transactions }) {
+  console.log("Transactions table:", transactions)
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
     },
     {
       title: "Type",
@@ -19,8 +20,8 @@ function TransactionTable({ transactions }) {
     },
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
+      dataIndex: "dateTime",
+      key: "dateTime",
     },
     {
       title: "Amount",
@@ -29,15 +30,17 @@ function TransactionTable({ transactions }) {
     },
     {
       title: "Tag",
-      dataIndex: "tag",
-      key: "tag",
+      dataIndex: "categoryOrTag",
+      key: "categoryOrTag",
     },
   ];
-  let filteredTransactions = transactions.filter(
-    (item) =>
-      item.name.toLowerCase().includes(search.toLowerCase()) &&
+  let filteredTransactions = transactions.filter((item) => {
+    console.log("item: ", item);
+    return (
+      item.description && item.description.toLowerCase().includes(search.toLowerCase()) &&
       item.type.includes(typeFilter)
-  );
+    );
+  });
   return (
     <>
       <input

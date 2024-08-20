@@ -1,41 +1,41 @@
 .btn {
     color: var(--theme);
-    text-align: center;
-    margin: 1rem 0rem;
+    text-align: center !important;
+    margin: 1rem 0rem !important;
     padding: 0.5rem !important;
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
     background-color: #fff;
-    border: 1px solid var(--theme);
-    border-radius: 0.25rem;
-    cursor: pointer;
+    border: 1px solid var(--theme) !important;
+    border-radius: 0.25rem !important;
+    cursor: pointer !important;
     display: flex !important;
-    align-items: center;
-    justify-content: center;
+    align-items: center !important;
+    justify-content: center !important;
     height: auto !important;
   }
   
   .btn:hover {
-    background-color: var(--theme);
-    color: #fff;
-    transition: all 0.3s;
+    background-color: var(--theme) !important;
+    color: #fff !important;
+    transition: all 0.3s !important;
   }
   
   .btn-blue {
-    background-color: var(--theme);
-    color: #fff;
+    background-color: var(--theme) !important;
+    color: #fff !important;
   }
   .btn-orange {
-    background-color: orange;
-    color: #fff;
+    background-color: orange !important;
+    color: #fff !important;
   }
   
   .btn-orange:hover {
     background-color: #fff !important;
     color: var(--theme) !important;
-    transition: all 0.3s;
+    transition: all 0.3s !important;
   }
   .btn-blue:hover {
     background-color: #fff !important;
     color: var(--theme) !important;
-    transition: all 0.3s;
+    transition: all 0.3s !important;
   }

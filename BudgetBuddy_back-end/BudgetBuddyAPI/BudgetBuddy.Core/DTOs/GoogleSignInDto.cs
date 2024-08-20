@@ -8,7 +8,7 @@ namespace BudgetBuddy.Core.DTOs
 {
     public class GoogleSignInDto
     {
-        public string TokenId { get; set; }
+        public string Token { get; set; }
         public string Role {  get; set; }
     }
 }

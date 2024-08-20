@@ -21,8 +21,10 @@ namespace BudgetBuddy.Core.Utilities
             pageResult.NumberOfPages = count % pageResult.PageSize != 0
                 ? count / pageResult.PageSize + 1
                 : count / pageResult.PageSize;
-
-            var sourceList = queryable.Skip((pageResult.CurrentPage - 1) * pageResult.PageSize).Take(pageResult.PageSize).ToList();
+            var w = queryable.Skip((pageResult.CurrentPage - 1));
+            var u = queryable.Skip((pageResult.CurrentPage - 1) * pageResult.PageSize);
+            var q = queryable.Skip((pageResult.CurrentPage - 1) * pageResult.PageSize).Take(pageResult.PageSize);
+           var sourceList = queryable.Skip((pageResult.CurrentPage - 1) * pageResult.PageSize).Take(pageResult.PageSize).ToList();
             var destinationList = mapper.Map<IEnumerable<TDestination>>(sourceList);
             pageResult.PageItems = destinationList;
             return pageResult;

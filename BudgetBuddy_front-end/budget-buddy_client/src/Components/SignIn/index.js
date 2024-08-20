@@ -10,12 +10,15 @@ import {
 } from "../../utils/helper";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
+import {
+  useGoogleOneTapLogin,
+} from "@react-oauth/google";
 
 function SignInComponent({ onToggleForm }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading } = useAuth();
-
+  const { googleSignInUp, login, loading } = useAuth();
+  const role = "customer";
   const navigate = useNavigate();
 
   const loginUsingEmail = async () => {
@@ -40,6 +43,29 @@ function SignInComponent({ onToggleForm }) {
       handleErrors(error);
     }
   };
+
+  const googleSignin = useGoogleOneTapLogin({
+      
+    onSuccess: async (credentialResponse) => {
+      console.log("this is: ", credentialResponse);
+      
+      const response = await googleSignInUp({
+        token: credentialResponse.credential,
+        role,
+      });
+
+      if (response !== null) {
+        toast.success("Sign-up successful!");
+        navigate("/dashboard");
+      }    
+    },
+    onError: (error) => {
+      console.error("Google login error:", error);
+      toast.error("Google sign-in failed.");
+    },
+    scope: 'openid email profile' 
+});
+
 
   return (
     <>
@@ -68,7 +94,12 @@ function SignInComponent({ onToggleForm }) {
             onClick={loginUsingEmail}
           />
           <p className="signup-wrapper_p_tag">or</p>
-          <Button loading={loading} text={"Google Login"} orange={true} />
+          <Button
+            loading={loading}
+            text={"Google Sign Up"}
+            onClick={googleSignin}
+            orange={true}
+          />
           <p className="p-login" onClick={onToggleForm}>
             Do Not Have An Account? Click here
           </p>

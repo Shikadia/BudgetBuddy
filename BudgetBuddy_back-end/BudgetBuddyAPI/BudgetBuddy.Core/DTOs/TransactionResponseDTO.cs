@@ -4,6 +4,8 @@
     {
         public PaginationResult<IEnumerable<ListOfTransactions>> ListOfTransactions { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal TotalIncome { get; set; }
+        public decimal TotalExpense { get; set; }
     }
 
     public class ListOfTransactions
@@ -13,5 +15,6 @@
         public decimal Amount { get; set; }
         public DateTimeOffset Date { get; set; }
         public string CategoryOrTag { get; set; }
+        public string Description { get; set; }
     }
 }

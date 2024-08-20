@@ -1,14 +1,16 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import "./style.css";
 import Input from "../Input";
 import Button from "../Button";
 import { toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import {
   getSignUpValidationSchema,
   handleErrors,
   resetFormFields,
 } from "../../utils/helper";
+import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
 
 function SignUpComponent({ onToggleForm }) {
   const [firstName, setFirstName] = useState("");
@@ -17,7 +19,9 @@ function SignUpComponent({ onToggleForm }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const { signUp, loading } = useAuth();
+  const { googleSignInUp, signUp, loading } = useAuth();
+  const navigate = useNavigate();
+  const role = "customer";
 
   const signUpwithEmail = async () => {
     const validationSchema = getSignUpValidationSchema();
@@ -38,6 +42,7 @@ function SignUpComponent({ onToggleForm }) {
         phoneNumber,
         password,
         confirmPassword,
+        role,
       });
 
       if (response !== null) {
@@ -56,6 +61,29 @@ function SignUpComponent({ onToggleForm }) {
       handleErrors(error);
     }
   };
+
+ const x =  useGoogleOneTapLogin({
+    onSuccess: async (credentialResponse) => {
+      console.log("this is: ", credentialResponse);
+      navigate("/dashboard");
+
+      const response = await googleSignInUp({
+        token: credentialResponse.credential,
+        role,
+      });
+
+      if (response !== null) {
+        toast.success("Sign-up successful!");
+        navigate("/dashboard");
+      }
+    },
+    onError: (error) => {
+      console.log("this is: ");
+      console.error("Google login error:", error);
+      toast.error("Google sign-in failed.");
+    },
+  })
+
   return (
     <>
       <div className="signup-wrapper">
@@ -111,7 +139,12 @@ function SignUpComponent({ onToggleForm }) {
             onClick={signUpwithEmail}
           />
           <p className="signup-wrapper_p_tag">or</p>
-          <Button loading={loading} text={"Google Sign Up"} blue={true} />
+          <Button
+            loading={loading}
+            text={"Google Sign Up"}
+            // onClick={() => googleSignin()}
+            orange={true}
+          />
           <p className="p-login" onClick={onToggleForm}>
             Already Have an Account? Click here
           </p>
