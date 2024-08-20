@@ -75,7 +75,7 @@ namespace BudgetBuddyAPI.Controllers
         [HttpPost("google-signin")]
         public async Task<IActionResult> GoogleSignIn([FromBody] GoogleSignInDto request)
         {
-            var result = await _authService.GoogleSignInUp(request.TokenId, request.Role);
+            var result = await _authService.GoogleSignInUp(request.Token, request.Role);
 
             return StatusCode(result.StatusCode, result);
         }

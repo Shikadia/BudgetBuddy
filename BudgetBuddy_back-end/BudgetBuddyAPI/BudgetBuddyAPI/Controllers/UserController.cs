@@ -55,12 +55,14 @@ namespace BudgetBuddyAPI.Controllers
         }
         [HttpGet]
         [Route("get-all-transaction")]
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAllTransaction([FromQuery]int pageNumber, int pageSize)
         {
-            var userId = "123e4567-e89b-12d3-a456-426614174000";
+
+            var userId = "98765432-10fe-dcba-9876-426614174000";
             var result = await _transactionService.GetAllTransactions(pageSize, pageNumber, userId);
 
             return StatusCode(result.StatusCode, result);
@@ -72,7 +74,7 @@ namespace BudgetBuddyAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddTransaction([FromBody]TransactionRequestDTO request, [FromQuery] int pageNumber, int pageSize)
         {
-            var userId = "123e4567-e89b-12d3-a456-426614174000";
+            var userId = "98765432-10fe-dcba-9876-426614174000";
             var result = await _transactionService.AddTransaction(pageSize, pageNumber, userId, request);
 
             return StatusCode(result.StatusCode, result);
