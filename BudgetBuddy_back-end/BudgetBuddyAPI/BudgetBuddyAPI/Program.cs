@@ -1,4 +1,5 @@
 using AutoMapper;
+using BudgetBuddy.Core.AppSettings;
 using BudgetBuddy.Core.Utilities.AutoMapper;
 using BudgetBuddy.Infrastructure;
 using BudgetBuddyAPI.Extensions;
@@ -30,6 +31,7 @@ builder.Services.AddAuthenticationExtension(configuration);
 builder.Services.AddAuthorizationExtension();
 builder.Services.AddDbContextAndConfigurations(builder.Environment, builder.Configuration);
 builder.Logging.AddSerilog();
+
 
 var app = builder.Build();
 await BudgetBuddyDbInitializer.Seed(app);

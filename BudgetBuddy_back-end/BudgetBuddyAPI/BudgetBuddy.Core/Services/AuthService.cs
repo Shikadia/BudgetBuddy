@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
 using BudgetBuddy.Core.DTOs;
 using BudgetBuddy.Core.Interface;
+using BudgetBuddy.Core.Utilities;
 using BudgetBuddy.Domain.Enums;
 using BudgetBuddy.Domain.Models;
-using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using ILogger = Serilog.ILogger;
 
 namespace BudgetBuddy.Core.Services
@@ -15,13 +17,17 @@ namespace BudgetBuddy.Core.Services
     public class AuthService : IAuthService
     {
         private readonly ITokenService _tokenService;
+        private readonly IDigitTokenService _digitTokenService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
+        private readonly INotificationService _notificationService;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
-        public AuthService(IServiceProvider provider, IUnitOfWork unitOfWork, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
+        public AuthService(IServiceProvider provider, IUnitOfWork unitOfWork, IConfiguration configuration, RoleManager<IdentityRole> roleManager,
+            IDigitTokenService digitTokenService, IEmailService emailService, INotificationService notificationService)
         {
             _userManager = provider.GetRequiredService<UserManager<AppUser>>();
             _tokenService = provider.GetRequiredService<ITokenService>();
@@ -29,6 +35,9 @@ namespace BudgetBuddy.Core.Services
             _logger = provider.GetRequiredService<ILogger>();
             _configuration = configuration;
             _roleManager = roleManager;
+            _digitTokenService = digitTokenService;
+            _emailService = emailService;
+            _notificationService = notificationService;
         }
         public async Task<ResponseDto<CredentialResponseDTO>> Login(LoginDTO model)
         {
@@ -127,12 +136,16 @@ namespace BudgetBuddy.Core.Services
                     return ResponseDto<SignUpResponseDTO>.Fail("An Error occured when creating user", (int)HttpStatusCode.BadRequest);
                 }
 
-                if (!await _roleManager.RoleExistsAsync(model.Role))
+                if (!await _roleManager.RoleExistsAsync(model.Role.ToUpperInvariant()))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(model.Role));
+                    await _roleManager.CreateAsync(new IdentityRole(model.Role.ToUpperInvariant()));
                 }
+                await _userManager.AddToRoleAsync(userModel,model.Role.ToUpperInvariant());
 
-                await _userManager.AddToRoleAsync(userModel,model.Role);
+                var sendEmailResponse = await SendEmail(userModel);
+                if (sendEmailResponse == null || !sendEmailResponse.Status)
+                    return ResponseDto<SignUpResponseDTO>.Fail("Registration successful, but resent otp for email verification",
+                        sendEmailResponse.StatusCode);
 
                 return ResponseDto<SignUpResponseDTO>.Success("Registration Successful",
                  new SignUpResponseDTO { Id = userModel.Id, Email = userModel.Email },
@@ -190,15 +203,15 @@ namespace BudgetBuddy.Core.Services
                 {
                     user = new AppUser
                     {
-                        FirstName = payLoad.GivenName,
-                        LastName = payLoad.FamilyName,
+                        FirstName = payLoad.Given_Name,
+                        LastName = payLoad.Family_Name,
                         PhoneNumber = "",
                         Email = payLoad.Email,
                         Balance = 0,
                         IsActive = true,
-                        UserName = payLoad.GivenName + payLoad.FamilyName,
+                        UserName = payLoad.Given_Name + payLoad.Family_Name,
                         RefreshToken = "",
-                        EmailConfirmed = true
+                        EmailConfirmed = payLoad.Email_Verified
                     };
                     var result = await _userManager.CreateAsync(user);
                     if (result.Succeeded)
@@ -237,24 +250,156 @@ namespace BudgetBuddy.Core.Services
             }
 
         }
-        private async Task<GoogleJsonWebSignature.Payload> VerifyGoogleTokenAsync(string token)
+        private async Task<GoogleUserInfoDTO> VerifyGoogleTokenAsync(string token)
         {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var response = await client.GetAsync("https://www.googleapis.com/oauth2/v3/userinfo");
+                var x = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var userInfo = await response.Content.ReadFromJsonAsync<GoogleUserInfoDTO>();
+                    return userInfo;
+                }
+                else
+                {
+                    _logger.Error("Failed to retrieve user info from Google. ");
+                    return null;
+                }
+            }
+        }
+
+        public async Task<ResponseDto<string>> ConfirmEmail(ConfirmEmailDTO confirmEmailDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(confirmEmailDTO.EmailAddress);
+            if (user == null)
+            {
+                return ResponseDto<string>.Fail("User not found", (int)HttpStatusCode.NotFound);
+            }
+            var purpose = UserManager<AppUser>.ConfirmEmailTokenPurpose;
+            var result = await _digitTokenService.ValidateAsync(purpose, confirmEmailDTO.Token, _userManager, user);
+            if (result)
+            {
+                user.EmailConfirmed = true;
+                user.IsActive = true;
+                var update = await _userManager.UpdateAsync(user);
+                if (update.Succeeded)
+                {
+                    return ResponseDto<string>.Success("Email Confirmation successful", user.Id, (int)HttpStatusCode.OK);
+                }
+            }
+            return ResponseDto<string>.Fail("Email Confirmation not successful", (int)HttpStatusCode.Unauthorized);
+        }
+
+        public async Task<ResponseDto<string>> ForgotPassword(ForgotPasswordDTO model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.EmailAddress);
+            if (user is null)
+                return ResponseDto<string>.Fail("This email does not exist on this app", (int)HttpStatusCode.NotFound);
+            var purpose = UserManager<AppUser>.ResetPasswordTokenPurpose;
+            var token = await _digitTokenService.GenerateAsync(purpose, _userManager, user);
+            var mailBody = await EmailBodyBuilder.GetEmailBody(user, "StaticFiles/ForgotPassword.html", token);
+            var emailNotification = new EmailDTO
+            {
+                ToEmail = user.Email,
+                Subject = "Reset Password",
+                Message = mailBody,
+            };
+
             try
             {
-                var config = _configuration.GetSection("google_auth");
-                var settings = new GoogleJsonWebSignature.ValidationSettings()
-                {
-                    Audience = new List<string>() { config.GetSection("ClientId").Value }
-                };
-                var payload = await GoogleJsonWebSignature.ValidateAsync(token, settings);
-                _logger.Information($"Google token successfully validated {payload.Email}");
-                return payload;
+                var response = await _emailService.SendEmail(emailNotification);
 
+                return ResponseDto<string>.Success($"This email is successfully to: {model.EmailAddress}",
+                        $"A reset link was successfully sent to {model.EmailAddress}", (int)HttpStatusCode.OK);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.Error($"something went wrong when verifying google token {ex.Message}");
-                return null;
+                return ResponseDto<string>.Fail("Service is not available, please try again later.", (int)HttpStatusCode.ServiceUnavailable);
+            }
+        }
+
+        public async Task<ResponseDto<string>> ResendOTP(ResendOtpDTO model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return ResponseDto<string>.Fail("Email does not exist", (int)HttpStatusCode.NotFound);
+            }
+
+            var purpose = (model.Purpose == "ConfirmEmail") ? UserManager<AppUser>.ConfirmEmailTokenPurpose
+                : UserManager<AppUser>.ResetPasswordTokenPurpose;
+            var token = await _digitTokenService.GenerateAsync(purpose, _userManager, user);
+
+            var mailBody = await EmailBodyBuilder.GetEmailBody(user, emailTempPath: (model.Purpose == "ConfirmEmail") ?
+                "StaticFiles/EmailConfirmation.html" : "StaticFiles/ForgotPassword.html", token);
+
+            var emailNotification = new EmailDTO
+            {
+                ToEmail = user.Email,
+                Subject = "Email Verification",
+                Message = mailBody,
+            };
+
+           var response = await _emailService.SendEmail(emailNotification);
+
+            if (response.Data)
+                if (!user.IsActive)
+                {
+                    return ResponseDto<string>.Success($"This email is successfully to: {model.Email}",
+                        $"OTP was successfully resent to {model.Email}");
+                }
+            return ResponseDto<string>.Fail("Sending OTP was not successful", (int)HttpStatusCode.InternalServerError);
+        }
+
+        public async Task<ResponseDto<string>> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
+        {
+            var validator = new ResetPasswordValidator();
+            await validator.ValidateAsync(resetPasswordDTO);
+            _logger.Information("Reset password attempt");
+            var user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);
+            if (user == null)
+            {
+                return ResponseDto<string>.Fail("Email does not exist", (int)HttpStatusCode.NotFound);
+            }
+            var purpose = UserManager<AppUser>.ResetPasswordTokenPurpose;
+            var isValidToken = await _digitTokenService.ValidateAsync(purpose, resetPasswordDTO.Token, _userManager, user);
+            var result = new IdentityResult();
+            var hasher = new PasswordHasher<AppUser>();
+            if (isValidToken)
+            {
+                var hash = hasher.HashPassword(user, resetPasswordDTO.NewPassword);
+                user.PasswordHash = hash;
+                result = await _userManager.UpdateAsync(user);
+            }
+            if (result.Succeeded)
+            {
+                return ResponseDto<string>.Success("Password has been reset successfully", user.Id, (int)HttpStatusCode.OK);
+            }
+            return ResponseDto<string>.Fail("Invalid Token", (int)HttpStatusCode.BadRequest);
+        }
+        private async Task<ResponseDto<bool>> SendEmail(AppUser userModel)
+        {
+            var purpose = UserManager<AppUser>.ConfirmEmailTokenPurpose;
+            string token = await _digitTokenService.GenerateAsync(purpose, _userManager, userModel);
+            var mailBody = await EmailBodyBuilder.GetEmailBody(userModel, "StaticFiles/EmailConfirmation.html", token);
+            var sendEmail = new EmailDTO
+            {
+                ToEmail = userModel.Email,
+                Subject = "Email Verification",
+                Message = mailBody
+            };
+
+            try
+            {
+                return await _emailService.SendEmail(sendEmail);
+            }
+            catch (Exception)
+            {
+                return ResponseDto<bool>.Fail("Service is not available, please try again later.",
+                    (int)HttpStatusCode.ServiceUnavailable);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using BudgetBuddy.Domain.Models;
+﻿using BudgetBuddy.Core.Interface;
+using BudgetBuddy.Core.Services;
+using BudgetBuddy.Domain.Models;
 using BudgetBuddy.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +36,9 @@ namespace BudgetBuddyAPI.Extensions
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), services);
-            _ = builder.AddEntityFrameworkStores<BudgetBuddyDbContext>();
+            _ = builder.AddEntityFrameworkStores<BudgetBuddyDbContext>()
+            .AddTokenProvider<DigitTokenService>(DigitTokenService.DIGITEMAIL)
+            .AddDefaultTokenProviders();
         }
     }
 }
