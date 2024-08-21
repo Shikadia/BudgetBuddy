@@ -79,6 +79,53 @@ namespace BudgetBuddyAPI.Controllers
 
             return StatusCode(result.StatusCode, result);
         }
+        /// <summary>
+        /// Generate a reset token and send to user email address
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet("forget-password")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ForgotPassword([FromQuery] ForgotPasswordDTO model)
+        {
+            var response = await _authService.ForgotPassword(model);
+            return StatusCode(response.StatusCode, response);
+        }
 
+        /// <summary>
+        /// Reset password of a logged out user
+        /// </summary>
+        /// <param name="resetPasswordDTO"></param>
+        /// <returns></returns>
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
+        {
+            var result = await _authService.ResetPasswordAsync(resetPasswordDTO);
+            return StatusCode(result.StatusCode, result);
+        }
+        /// <summary>
+        /// Verify email with token
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailDTO request)
+        {
+            var response = await _authService.ConfirmEmail(request);
+            return StatusCode(response.StatusCode, response);
+        }
+        /// <summary>
+        /// Resent OTP for confirmation
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("resend-otp")]
+        public async Task<IActionResult> ResendOTP([FromBody] ResendOtpDTO model)
+        {
+            var response = await _authService.ResendOTP(model);
+            return StatusCode(response.StatusCode, response);
+        }
     }
 }
