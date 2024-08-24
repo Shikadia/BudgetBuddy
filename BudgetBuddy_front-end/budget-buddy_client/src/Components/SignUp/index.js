@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import "./style.css";
 import Input from "../Input";
 import Button from "../Button";
@@ -10,7 +10,7 @@ import {
   handleErrors,
   resetFormFields,
 } from "../../utils/helper";
-import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function SignUpComponent({ onToggleForm }) {
   const [firstName, setFirstName] = useState("");
@@ -46,7 +46,8 @@ function SignUpComponent({ onToggleForm }) {
       });
 
       if (response !== null) {
-        toast.success("Sign-up successful!");
+        toast.success("Sign-up successful, use the OTP sent to your mail to confirm your Registration");
+        localStorage.setItem("confirmEmail", email); 
         resetFormFields([
           setFirstName,
           setLastName,
@@ -55,25 +56,26 @@ function SignUpComponent({ onToggleForm }) {
           setConfirmPassword,
           setPhoneNumber,
         ]);
-        onToggleForm();
+        navigate("/confirmEmail")
       }
     } catch (error) {
       handleErrors(error);
     }
   };
 
- const x =  useGoogleOneTapLogin({
+ const googleSignin =  useGoogleLogin({
     onSuccess: async (credentialResponse) => {
       console.log("this is: ", credentialResponse);
       navigate("/dashboard");
 
       const response = await googleSignInUp({
-        token: credentialResponse.credential,
-        role,
+        token: credentialResponse.access_token,
+        role
       });
 
       if (response !== null) {
         toast.success("Sign-up successful!");
+        localStorage.setItem("IsGoogle", true);
         navigate("/dashboard");
       }
     },
@@ -142,7 +144,7 @@ function SignUpComponent({ onToggleForm }) {
           <Button
             loading={loading}
             text={"Google Sign Up"}
-            // onClick={() => googleSignin()}
+            onClick={ googleSignin}
             orange={true}
           />
           <p className="p-login" onClick={onToggleForm}>

@@ -11,19 +11,31 @@ namespace BudgetBuddy.Core.Utilities
             where TDestination : class
         {
             var count = queryable.Count();
+
+            if (count == 0)
+            {
+                return new PaginationResult<IEnumerable<TDestination>>
+                {
+                    PageSize = pageSize,
+                    CurrentPage = pageNumber,
+                    PreviousPage = 0,
+                    NumberOfPages = 0,
+                    PageItems = Enumerable.Empty<TDestination>(),
+                    TotalTransactions = 0,
+                };
+            }
+
             var pageResult = new PaginationResult<IEnumerable<TDestination>>
             {
-                PageSize = (pageSize > 10 || pageNumber < 1) ? 10 : pageSize,
+                PageSize = (pageSize > 10 || pageNumber < 1) ? count : pageSize,
                 CurrentPage = pageNumber > 1 ? pageNumber : 1,
                 PreviousPage = pageNumber > 0 ? pageNumber - 1 : 0,
+                TotalTransactions =  count,
             };
 
             pageResult.NumberOfPages = count % pageResult.PageSize != 0
                 ? count / pageResult.PageSize + 1
                 : count / pageResult.PageSize;
-            var w = queryable.Skip((pageResult.CurrentPage - 1));
-            var u = queryable.Skip((pageResult.CurrentPage - 1) * pageResult.PageSize);
-            var q = queryable.Skip((pageResult.CurrentPage - 1) * pageResult.PageSize).Take(pageResult.PageSize);
            var sourceList = queryable.Skip((pageResult.CurrentPage - 1) * pageResult.PageSize).Take(pageResult.PageSize).ToList();
             var destinationList = mapper.Map<IEnumerable<TDestination>>(sourceList);
             pageResult.PageItems = destinationList;

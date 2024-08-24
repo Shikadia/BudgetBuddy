@@ -67,6 +67,7 @@ namespace BudgetBuddy.Core.Services
             var credentialResponse = new CredentialResponseDTO()
             {
                 Id = user.Id,
+                Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
                 RefreshToken = user.RefreshToken,
             };
@@ -90,7 +91,7 @@ namespace BudgetBuddy.Core.Services
             int value = DateTime.Compare((DateTime)user?.RefreshTokenExpiryTime!, DateTime.Now);
             if (user.RefreshToken != tokenToBeRefreshed || value < 0)
             {
-                return ResponseDto<RefreshTokenResponseDTO>.Fail("Invalid credentials", (int)HttpStatusCode.BadRequest);
+                return ResponseDto<RefreshTokenResponseDTO>.Fail("Invalid credentials RT", (int)HttpStatusCode.BadRequest);
             }
             var refreshMapping = new RefreshTokenResponseDTO
             {
@@ -230,6 +231,7 @@ namespace BudgetBuddy.Core.Services
                 {
                     Id = user.Id,
                     Token = await _tokenService.GenerateToken(user),
+                    Email = user.Email,
                     RefreshToken = user.RefreshToken,
                 };
 
