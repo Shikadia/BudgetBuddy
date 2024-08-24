@@ -23,6 +23,8 @@ const userService = axios.create({
     timeout: 30000,
 });
 
+userService.interceptors.request.use()
+
 
 const apiRequest = {
     userService,

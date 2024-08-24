@@ -32,19 +32,19 @@ const authReducer = (
         token: action.payload.newAccessToken,
         refreshToken: action.payload.newRefreshToken,
       };
-      case "googlesignup":
-        return {
-            ...state,
-            user: action.payload.user,
-            id: action.payload.id,
-            token: action.payload.token,
-            refreshToken: action.payload.refreshToken,
-        }
+    case "googlesignup":
+      return {
+        ...state,
+        user: action.payload.user,
+        id: action.payload.id,
+        token: action.payload.token,
+        refreshToken: action.payload.refreshToken,
+      };
     default:
       return state;
   }
 };
-const useraddressReducer = (state = {address: null }, action) => {
+const useraddressReducer = (state = { address: null }, action) => {
   switch (action.type) {
     case "addaddress":
       return { ...state, address: action.payload.address };
@@ -55,15 +55,17 @@ const useraddressReducer = (state = {address: null }, action) => {
   }
 };
 const usertransactionReducer = (state = { transaction: null }, action) => {
-    switch (action.type) {
-      case "getalltransactions":
-        return { ...state, transaction: action.payload.transaction };
-      case "addtransactions":
-        return { ...state, transaction: action.payload.transaction };
-      default:
-        return state;
-    }
-  };
+  switch (action.type) {
+    case "getalltransactions":
+      return { ...state, transaction: action.payload.transaction };
+    case "addtransactions":
+      return { ...state, transaction: action.payload.transaction };
+    case "reset":
+      return { ...state, transaction: null };
+    default:
+      return state;
+  }
+};
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -74,7 +76,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whiteList: ["auth", "useraddress", "usertransaction"],
+  whitelist: ["auth"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

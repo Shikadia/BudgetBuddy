@@ -1,23 +1,41 @@
 .my-card {
-    box-shadow: var(--shadow);
-    min-width: 400px;
-    margin: 2rem;
-    border-radius: 0.5rem;
-    /* font-family: "Montserrat", sans-serif !important; */
-    flex: 1;
+  box-shadow: var(--shadow);
+  min-width: 5rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+  /* font-family: "Montserrat", sans-serif !important; */
+  flex: 1;
+}
+.my-card-1 {
+  box-shadow: var(--shadow);
+  min-width: 200px;
+  margin: 2rem;
+  border-radius: 0.5rem;
 }
 .my-card_row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 2rem auto;
-    flex-wrap: wrap;
-    gap: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem auto;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .ant-card-head-title {
-    margin: 0rem !important;
+  margin: 0rem !important;
 }
-.my-card p{
-    margin: 0;
+.my-card p {
+  margin: 0;
 }
+.crying-emoji {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.crying-gif {
+  width: 10rem; /* Reduced size */
+  height: auto; /* Maintain aspect ratio */
+  padding: auto;
+  margin: 0;
+}
+

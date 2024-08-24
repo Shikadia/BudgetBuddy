@@ -58,11 +58,11 @@ namespace BudgetBuddyAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAllTransaction([FromQuery]int pageNumber, int pageSize)
         {
-
-            var userId = "98765432-10fe-dcba-9876-426614174000";
+            var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _transactionService.GetAllTransactions(pageSize, pageNumber, userId);
 
             return StatusCode(result.StatusCode, result);
@@ -72,10 +72,37 @@ namespace BudgetBuddyAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> AddTransaction([FromBody]TransactionRequestDTO request, [FromQuery] int pageNumber, int pageSize)
         {
-            var userId = "98765432-10fe-dcba-9876-426614174000";
+            var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await _transactionService.AddTransaction(pageSize, pageNumber, userId, request);
+
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpPost]
+        [Route("reset-transactions_balance")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> ResetTransactionsBalance([FromBody]string id)
+        {
+            var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await _transactionService.ResetTransactionsBalance(userId);
+
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpPatch]
+        [Route("edit-transaction")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> EditTransaction([FromBody] EditTransactionRequestDTO request)
+        {
+            var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await _transactionService.EditTransaction(request, userId);
 
             return StatusCode(result.StatusCode, result);
         }

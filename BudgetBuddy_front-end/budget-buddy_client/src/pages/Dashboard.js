@@ -1,78 +1,44 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import Cards from "../Components/Cards";
-import { Modal } from "antd";
 import AddExpense from "../Components/Modals/addExpense";
 import AddIncome from "../Components/Modals/addIncome";
-import moment from "moment";
 import { toast } from "react-toastify";
 import TransactionTable from "../Components/TansactionsTable";
 import { useSelector } from "react-redux";
 import { useAuth } from "../hooks/useAuth";
 import { handleErrors } from "../utils/helper";
 import Spinner from "../Components/Loader/spinner";
+import ChartsComponent from "../Components/Charts";
+import NoTransactionsComponent from "../Components/NoTransactions";
 
 function Dashboard() {
-  const { addtransactions, loading, getalltransactions} = useAuth();
+  const { addtransactions, loading, getalltransactions } = useAuth();
   const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
   const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
   const [currentBalance, setCurrentBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [income, setIncome] = useState(0);
   const [expenses, setExpenses] = useState(0);
-  const transacttate = useSelector((state) => state.usertransaction)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [transactionEdited, setTransactionEdited] = useState(false)
+  const [totalTransactions, setTotalTransactions] = useState(0);
+  const [transactionAdded, setTransactionAdded] = useState(false);
+  const [resetTriggered, setResetTriggered] = useState(false);
+  const transacttate = useSelector((state) => state.usertransaction);
 
   useEffect(() => {
-    console.log("checking transactions: ", transactions);
-    // Fetch transactions and update state on page reload
-    const x = transacttate.transaction.listOfTransactions.pageItems
-    const w = transacttate.transaction
-    console.log("checking transactions1: ", x);
-    console.log("checking state: ", w);
     fetchTransactions();
-    // console.log("checking transactions1: ", x);
-  }, []);
+  }, [currentPage, pageSize, transactionAdded, resetTriggered, transactionEdited]);
 
-  const processChartData = () => {
-    const balanceData = [];
-    const spendingData = {};
-
-    transactions.forEach((transaction) => {
-      const monthYear = moment(transaction.date).format("MMM YYYY");
-      const tag = transaction.tag;
-
-      if (transaction.type === "Income") {
-        if (balanceData.some((data) => data.month === monthYear)) {
-          balanceData.find((data) => data.month === monthYear).balance +=
-            transaction.amount;
-        } else {
-          balanceData.push({ month: monthYear, balance: transaction.amount });
-        }
-      } else {
-        if (balanceData.some((data) => data.month === monthYear)) {
-          balanceData.find((data) => data.month === monthYear).balance -=
-            transaction.amount;
-        } else {
-          balanceData.push({ month: monthYear, balance: -transaction.amount });
-        }
-
-        if (spendingData[tag]) {
-          spendingData[tag] += transaction.amount;
-        } else {
-          spendingData[tag] = transaction.amount;
-        }
-      }
-    });
-
-    const spendingDataArray = Object.keys(spendingData).map((key) => ({
-      category: key,
-      value: spendingData[key],
-    }));
-
-    return { balanceData, spendingDataArray };
+  const handlePageChange = (page, size) => {
+    console.log("handle page change: ", page, size);
+    setCurrentPage(page);
+    setPageSize(size);
+    fetchTransactions(page, size);
   };
 
-  const { balanceData, spendingDataArray } = processChartData();
   const showExpenseModal = () => {
     setIsExpenseModalVisible(true);
   };
@@ -92,7 +58,7 @@ function Dashboard() {
   const onFinish = (values, type) => {
     const newTransaction = {
       type: type,
-      dateTime: moment(values.date).format("YYYY-MM-DD"),
+      date: values.date.format("YYYY-MM-DD HH:mm"),
       amount: parseFloat(values.amount),
       tag: values.tag,
       description: values.name,
@@ -101,36 +67,40 @@ function Dashboard() {
     addTransaction(newTransaction);
   };
 
-  const fetchTransactions = async () => {
+  const fetchTransactions = async (page, size) => {
     try {
-      const response = await getalltransactions();
-
-      if (response && response.data && response.data.data && response.data.data.listOfTransactions) {
-        const fetchedTransactions = response.data.data.listOfTransactions.pageItems;
+      const response = await getalltransactions(page, size);
+      console.log("fetchTransaction", response)
+      if (
+        response &&
+        response.data &&
+        response.data.data &&
+        response.data.data.listOfTransactions
+      ) {
+        const fetchedTransactions =
+          response.data.data.listOfTransactions;
         setTransactions(fetchedTransactions);
         setIncome(response.data.data.totalIncome);
         setExpenses(response.data.data.totalExpense);
         setCurrentBalance(response.data.data.totalAmount);
+        setTotalTransactions(response.data.data.listOfTransactions.Length);
+      }
+      else {
 
       }
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-      handleErrors(error);
-    }
+    } catch (error) {}
   };
-
 
   const addTransaction = async (newTransaction) => {
     try {
-      const response = await addtransactions(newTransaction);
-      const x = response.data.data.listOfTransactions.pageItems;
-      console.log("transactions add transactions: ", x);
-      console.log(response.data.data.totalAmount);
-      setTransactions(x);
-      setCurrentBalance(response.data.data.totalAmount);
-      fetchTransactions();
+      const response = await addtransactions(
+        newTransaction,
+        currentPage,
+        pageSize
+      );
 
       if (response !== null) {
+        setTransactionAdded(prev => !prev);
         toast.success("Transaction successful!");
       }
     } catch (error) {
@@ -138,31 +108,15 @@ function Dashboard() {
     }
   };
 
-  const balanceConfig = {
-    data: balanceData,
-    xField: "month",
-    yField: "balance",
-  };
-
-  const spendingConfig = {
-    data: spendingDataArray,
-    angleField: "value",
-    colorField: "category",
-  };
-
-  const cardStyle = {
-    boxShadow: "0px 0px 30px 8px rgba(227, 227, 227, 0.75)",
-    margin: "2rem",
-    borderRadius: "0.5rem",
-    minWidth: "400px",
-    flex: 1,
-  };
+  let sortedTransactions = transactions.sort((a, b) => {
+    return new Date(a.dateTime) - new Date(b.dateTime);
+  });
 
   return (
     <div>
-      <Header />
+      <Header  onReset={() => setResetTriggered(prev => !prev)} currentBalance={currentBalance}/>
       {loading ? (
-        <Spinner/>
+        <Spinner />
       ) : (
         <>
           <Cards
@@ -171,9 +125,13 @@ function Dashboard() {
             currentBalance={currentBalance}
             income={income}
             expenses={expenses}
-            cardStyle={cardStyle}
-            // reset={reset}
+            cardStyle="card-style"
           />
+          {transactions && transactions.length !== 0 ? (
+            <ChartsComponent  sortedTransactions={sortedTransactions}/>
+          ) : (
+            <NoTransactionsComponent />
+          )}
           <AddExpense
             isExpenseModalVisible={isExpenseModalVisible}
             handleExpenseCancel={handleExpenseCancel}
@@ -184,7 +142,30 @@ function Dashboard() {
             handleIncomeCancel={handleIncomeCancel}
             onFinish={onFinish}
           />
-          <TransactionTable transactions={transacttate.transaction.listOfTransactions.pageItems} />
+          {transacttate &&
+          transacttate.transaction &&
+          transacttate.transaction.listOfTransactions ? (
+            <TransactionTable
+              transactions={
+                transacttate.transaction.listOfTransactions
+              }
+              onPageChange={handlePageChange}
+              totalTransactions={totalTransactions}
+              currentPage={currentPage}
+              pageSize={pageSize}
+              onEdited={() => setTransactionEdited(prev => !prev)}
+            />
+          ) : (
+            <TransactionTable
+              transactions={[]}
+              onPageChange={handlePageChange}
+              totalTransactions={totalTransactions}
+              currentPage={1}
+              pageSize={5}
+              onEdited={() => setTransactionEdited(prev => !prev)}
+
+            />
+          )}
         </>
       )}
     </div>

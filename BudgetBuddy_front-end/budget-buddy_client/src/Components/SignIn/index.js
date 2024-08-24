@@ -11,7 +11,7 @@ import {
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 import {
-  useGoogleOneTapLogin,
+  useGoogleLogin,
 } from "@react-oauth/google";
 
 function SignInComponent({ onToggleForm }) {
@@ -36,6 +36,8 @@ function SignInComponent({ onToggleForm }) {
 
       if (response !== null) {
         toast.success("Sign-in successful!");
+        console.log("thiis", email)
+        localStorage.setItem("LoggedInEmail", email); 
         resetFormFields([setEmail, setPassword]);
         navigate("/dashboard");
       }
@@ -44,28 +46,34 @@ function SignInComponent({ onToggleForm }) {
     }
   };
 
-  const googleSignin = useGoogleOneTapLogin({
+  const googleSignin = useGoogleLogin({
       
     onSuccess: async (credentialResponse) => {
       console.log("this is: ", credentialResponse);
       
       const response = await googleSignInUp({
-        token: credentialResponse.credential,
-        role,
+        token: credentialResponse.access_token,
+        role
       });
 
       if (response !== null) {
         toast.success("Sign-up successful!");
+        console.log("sssss", response)
+        setEmail(response.data.data.email)
+        localStorage.setItem("LoggedInEmail", response.data.data.email); 
+        localStorage.setItem("IsGoogle", true);
         navigate("/dashboard");
       }    
     },
     onError: (error) => {
-      console.error("Google login error:", error);
       toast.error("Google sign-in failed.");
     },
     scope: 'openid email profile' 
 });
 
+const handleForgotPassword = () => {
+  navigate("/forgotPassword");
+}
 
   return (
     <>
@@ -102,6 +110,9 @@ function SignInComponent({ onToggleForm }) {
           />
           <p className="p-login" onClick={onToggleForm}>
             Do Not Have An Account? Click here
+          </p>
+          <p className="p-login" onClick={handleForgotPassword}>
+            Forgot Password? Click here
           </p>
         </form>
       </div>

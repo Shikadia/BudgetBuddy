@@ -37,3 +37,8 @@ export const getSignValidationSchema = () => {
     password: PasswordValidator,
   });
 };
+export const emailValidationSchema = () => {
+  return Yup.object({
+    emailAddress: EmailValidator,
+  });
+};

@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Form, Input, DatePicker, Select, Button } from "antd";
 
 const AddIncome = ({ isIncomeModalVisible, handleIncomeCancel, onFinish }) => {
   const [form] = Form.useForm();
+  const [tags, setTags] = useState(["salary", "gift", "office"]); // Initial tags
+  const [newTag, setNewTag] = useState("");
 
   const handleFinish = (values) => {
     onFinish(values, "income");
     form.resetFields();
+  };
+
+  const handleAddTag = (value) => {
+    if (!tags.includes(value)) {
+      setTags([...tags, value]); // Add new tag if it doesn't exist
+    }
+    setNewTag(""); // Reset the input
   };
 
   return (
@@ -54,7 +63,7 @@ const AddIncome = ({ isIncomeModalVisible, handleIncomeCancel, onFinish }) => {
             },
           ]}
         >
-          <DatePicker format="YYYY-MM-DD" className="custom-input" />
+          <DatePicker format="YYYY-MM-DD" className="custom-input" showTime={{ format: 'HH:mm' }} />
         </Form.Item>
 
         <Form.Item
@@ -67,11 +76,38 @@ const AddIncome = ({ isIncomeModalVisible, handleIncomeCancel, onFinish }) => {
             },
           ]}
         >
-          <Select className="select-input-2">
-            <Select.Option value="salary">Salary</Select.Option>
-            <Select.Option value="freelance">Freelance</Select.Option>
-            <Select.Option value="investment">Investment</Select.Option>
-            {/* Add more tags here */}
+           <Select
+            className="select-input-2"
+            placeholder="Select or type a tag"
+            onSearch={setNewTag}
+            value={newTag}
+            onChange={handleAddTag}
+            showSearch
+            dropdownRender={(menu) => (
+              <div>
+                {menu}
+                {newTag && !tags.includes(newTag) && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      padding: 8,
+                      cursor: 'pointer',
+                    }}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => handleAddTag(newTag)}
+                  >
+                    <span>Add "{newTag}"</span>
+                  </div>
+                )}
+              </div>
+            )}
+          >
+            {tags.map((tag) => (
+              <Select.Option key={tag} value={tag}>
+                {tag}
+              </Select.Option>
+            ))}
           </Select>
         </Form.Item>
 

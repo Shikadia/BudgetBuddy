@@ -28,15 +28,47 @@ const auth = {
    * @param {{currentPassword: string, newPassword: string, confirmPassword: string}} data
    * @returns {AxiosResponse<{data: {string}, succeeded: boolean, message: string, statusCode: number}>}
    */
-  changePassword: (data) =>
-    apiRequest.userService.post("/api/v1/Auth/change-password", data),
+  changePassword: (data, token) => {
+    return apiRequest.userService.post("/api/v1/Auth/change-password", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+
   /**
    *
    * @param {{id: string, refreshtoken: string}} data
    * @returns {AxiosResponse<{data: {newAccessToken: string, newRefreshToken: string}, succeeded: boolean, message: string, statusCode: number}>}
    */
-  refreshToken: (data) => apiRequest.authService.post("/api/v1/Auth/refresh-token", data),
-
+  refreshToken: (data) =>
+    apiRequest.authService.post("/api/v1/Auth/refresh-token", data),
+  /**
+   *
+   * @param {{email: string, purpose: string}} data
+   * @returns {AxiosResponse<{data: {string}, succeeded: boolean, message: string, statusCode: number}>}
+   */
+  resendOtp: (data) =>
+    apiRequest.authService.post("/api/v1/Auth/resend-otp", data),
+  /**
+   *
+   * @param {{email: string, token: string}} data
+   * @returns {AxiosResponse<{data: {string}, succeeded: boolean, message: string, statusCode: number}>}
+   */
+  confirmEmail: (data) =>
+    apiRequest.authService.post("/api/v1/Auth/confirm-email", data),
+  /**
+   *
+   * @param {{email: string, token: string, newPassword: string, confirmPassword: string}} data
+   * @returns {AxiosResponse<{data: {string}, succeeded: boolean, message: string, statusCode: number}>}
+   */
+  resetPassword: (data) =>
+    apiRequest.authService.post("/api/v1/Auth/reset-password", data),
+  /**
+   *
+   * @param {{email: string}} data
+   * @returns {AxiosResponse<{data: {string}, succeeded: boolean, message: string, statusCode: number}>}
+   */
+  forgotPassword: (data) =>
+    apiRequest.authService.post("/api/v1/Auth/forget-password", data),
 };
 
 const user = {
@@ -45,8 +77,11 @@ const user = {
    * @param {{id: string, Name: string, city: string, state: string}} data
    * @returns {AxiosResponse<{data: {string}, succeeded: boolean, message: string, statusCode: number}>}
    */
-  addAddress: (data) =>
-    apiRequest.userService.post("/api/v1/User/add_address", data),
+  addAddress: (data, token) => {
+    return apiRequest.userService.post("/api/v1/User/add_address", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
 
   /**
    *
@@ -54,10 +89,19 @@ const user = {
    * @param {{id: string, pageNumber: number, pageSize: number}} data
    * @returns {AxiosResponse<{ data: { pageItems: { id: string, name: string, city: string, state: string }[], pageSize: number, currentPage: number, numberOfPages: number, previousPage: number }, succeeded: boolean, message: string, statusCode: number }>}}
    */
-  getAllAddress: (pageNumber, params) =>
-    apiRequest.userService.get(`/api/v1/User/get-all_address/${pageNumber}`, {
-      params,
-    }),
+  getAllAddress: (pageNumber, pageSize, token) => {
+    const params = new URLSearchParams({
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    });
+
+    return apiRequest.userService.get(
+      `/api/v1/User/get-all_address?${params.toString()}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  },
 
   /**
    *
@@ -65,32 +109,67 @@ const user = {
    * @param {{pageNumber: number, pageSize: number}} params
    *@returns {AxiosResponse<{ data: { listOfTransactions: { id: string, type: string, amount: number, date: string, categoryOrTag: string }[], totalAmount: number }, succeeded: boolean, message: string, statusCode: number }>}
    */
-  getAllTransaction: ( pageNumber, pageSize) => {
+  getAllTransaction: (pageNumber, pageSize, token) => {
     const params = new URLSearchParams({
       pageNumber: pageNumber,
-      pageSize: pageSize
+      pageSize: pageSize,
     });
-     
+
     return apiRequest.userService.get(
       `/api/v1/User/get-all-transaction?${params.toString()}`,
-      { params }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
   },
   /**
    *
    * @param {pageNumber: number}
-   * @param {{id: string, Name: string, city: string, state: string}} data
+   * @param {{Description: string, type: string, Date: date, Amount: DeviceMotionEventAcceleration, tag: string}} data
    * @returns {AxiosResponse<{ data: { listOfTransactions: { id: string, type: string, amount: number, date: string, categoryOrTag: string }[], totalAmount: number }, succeeded: boolean, message: string, statusCode: number }>}
    */
-  addTransaction: (data, pageNumber, pageSize) => {
+  addTransaction: (data, pageNumber, pageSize, token) => {
     const params = new URLSearchParams({
       pageNumber: pageNumber,
-      pageSize: pageSize
+      pageSize: pageSize,
     });
-  
+
     return apiRequest.userService.post(
       `/api/v1/User/add-transaction?${params.toString()}`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  },
+   /**
+   *@param {token: string}
+   * @returns {AxiosResponse<{ data: string}, succeeded: boolean, message: string, statusCode: number }>}
+   */
+   reset: (data,token) => {
+    console.log("ddddd0", token)
+    return apiRequest.userService.post(
+      "/api/v1/User/reset-transactions_balance",
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  },
+   /**
+   *
+   * @param {pageNumber: number}
+   * @param {{id: string, Description: string, type: string, Date: date, Amount: decimal, tag: string}} data
+   * @returns {AxiosResponse<{ data: { listOfTransactions: { id: string, type: string, amount: number, date: string, categoryOrTag: string }[], totalAmount: number }, succeeded: boolean, message: string, statusCode: number }>}
+   */
+   editTransaction: (data, token) => {
+  
+    return apiRequest.userService.patch(
+      "/api/v1/User/edit-transaction",
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
   },
 };

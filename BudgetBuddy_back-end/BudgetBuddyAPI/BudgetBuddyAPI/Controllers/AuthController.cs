@@ -65,7 +65,7 @@ namespace BudgetBuddyAPI.Controllers
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO model)
         {
-            var userId = HttpContext.User.FindFirst(user => user.Type == ClaimTypes.NameIdentifier).Value;
+            var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
             var response = await _authService.ChangePassword(model, userId);
 
             return StatusCode(response.StatusCode, response);
@@ -84,11 +84,11 @@ namespace BudgetBuddyAPI.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpGet("forget-password")]
+        [HttpPost("forget-password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ForgotPassword([FromQuery] ForgotPasswordDTO model)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO model)
         {
             var response = await _authService.ForgotPassword(model);
             return StatusCode(response.StatusCode, response);
@@ -114,17 +114,6 @@ namespace BudgetBuddyAPI.Controllers
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailDTO request)
         {
             var response = await _authService.ConfirmEmail(request);
-            return StatusCode(response.StatusCode, response);
-        }
-        /// <summary>
-        /// Resent OTP for confirmation
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost("resend-otp")]
-        public async Task<IActionResult> ResendOTP([FromBody] ResendOtpDTO model)
-        {
-            var response = await _authService.ResendOTP(model);
             return StatusCode(response.StatusCode, response);
         }
     }

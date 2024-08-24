@@ -23,3 +23,10 @@ input {
   left: 50%;
   z-index: 9999;
 }
+.card-style{
+  box-shadow: 0px 0px 30px 8px rgba(227, 227, 227, 0.75);
+  margin: 2rem;
+  border-radius: 0.5rem;
+  min-width: 400px;
+  flex: 1,
+}

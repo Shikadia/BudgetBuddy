@@ -1,0 +1,16 @@
+.noTransaction_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+.noTransaction_div_img {
+  width: 400px;
+  margin: 4rem;
+}
+.noTransaction_div_ptag {
+  text-align: center;
+  font-size: 1.2rem;
+}

@@ -16,7 +16,7 @@ namespace BudgetBuddyAPI.Extensions
                 string connStr;
                 if (env.IsProduction())
                 {
-                    connStr = "";
+                    connStr = config.GetConnectionString("DefaultConnection");
                 }
                 else
                 {
