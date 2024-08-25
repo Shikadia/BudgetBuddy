@@ -1,0 +1,29 @@
+version: '3.4'
+
+networks:
+  budgetBuddyNetwork:
+
+services:
+  budgetbuddydb:
+    container_name: budgetbuddy-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+        - 8004:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=password@12345
+      - MSSQL_PID=Express
+    networks:
+      - budgetBuddyNetwork
+  budgetbuddyapi:
+    container_name: budgetbuddy-app
+    image: ${DOCKER_REGISTRY-}budgetbuddyapi
+    build:
+      context: .
+      dockerfile: BudgetBuddyAPI/Dockerfile
+    ports:
+      - 8003:80
+    depends_on:
+      - budgetbuddydb
+    networks:
+      - budgetBuddyNetwork
