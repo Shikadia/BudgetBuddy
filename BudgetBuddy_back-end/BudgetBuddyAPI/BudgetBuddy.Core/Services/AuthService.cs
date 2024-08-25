@@ -221,7 +221,7 @@ namespace BudgetBuddy.Core.Services
                         {
                             await _roleManager.CreateAsync(new IdentityRole(role));
                         }
-                        await _userManager.AddToRoleAsync(user, UserRole.Admin.ToString());
+                        await _userManager.AddToRoleAsync(user, role.ToUpperInvariant());
                     }
                 }
 
