@@ -127,7 +127,7 @@ namespace BudgetBuddy.Core.Services
                     Email = model.Email.ToLower().Trim(),
                     Balance = 0,
                     IsActive = true,
-                    UserName = model.FirstName + model.LastName,
+                    UserName = model.Email.ToLower().Trim(),
                     RefreshToken = "",
                 };
 
@@ -210,7 +210,7 @@ namespace BudgetBuddy.Core.Services
                         Email = payLoad.Email,
                         Balance = 0,
                         IsActive = true,
-                        UserName = payLoad.Given_Name + payLoad.Family_Name,
+                        UserName = payLoad.Email_Verified,
                         RefreshToken = "",
                         EmailConfirmed = payLoad.Email_Verified
                     };

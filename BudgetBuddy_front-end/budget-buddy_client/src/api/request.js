@@ -1,12 +1,13 @@
 import axios from 'axios'
-import { useAuth } from '../hooks/useAuth';
+
 
 console.log(process.env)
-const AUTH_SERVICE_BASE_URL = process.env.REACT_APP_BUDGET_BUDDY_BASE_URL;
-const USER_SERVICE_BASE_URL = process.env.REACT_APP_BUDGET_BUDDY_BASE_URL;
+const AUTH_SERVICE_BASE_URL = process.env.REACT_APP_BUDGET_BUDDY_BASE_URL_DOCKER;
+const USER_SERVICE_BASE_URL = process.env.REACT_APP_BUDGET_BUDDY_BASE_URL_DOCKER;
 
 
 console.log(`Base URL: ${USER_SERVICE_BASE_URL}`);
+console.log("change something");
 
 const authService = axios.create({
     baseURL: AUTH_SERVICE_BASE_URL,
