@@ -27,3 +27,12 @@ services:
       - budgetbuddydb
     networks:
       - budgetBuddyNetwork
+  budgetbuddyclient:
+    container_name: budgetbuddy-frontend
+    build:
+      context:  C:/workspace/ALX/AlxProject/BudgetBuddy/BudgetBuddy_front-end/budget-buddy_client  # Assuming your frontend directory is named "frontend"
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000  # Expose the frontend on port 3000
+    networks:
+      - budgetBuddyNetwork
