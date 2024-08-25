@@ -210,7 +210,7 @@ namespace BudgetBuddy.Core.Services
                         Email = payLoad.Email,
                         Balance = 0,
                         IsActive = true,
-                        UserName = payLoad.Email_Verified,
+                        UserName = payLoad.Email.ToLower().Trim(),
                         RefreshToken = "",
                         EmailConfirmed = payLoad.Email_Verified
                     };
