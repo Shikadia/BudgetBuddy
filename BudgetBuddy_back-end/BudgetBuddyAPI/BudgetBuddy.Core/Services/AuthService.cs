@@ -196,7 +196,7 @@ namespace BudgetBuddy.Core.Services
                 var payLoad = await VerifyGoogleTokenAsync(token);
                 if (payLoad == null)
                 {
-                    return ResponseDto<CredentialResponseDTO>.Fail("Something went wrong payload", (int)HttpStatusCode.InternalServerError);
+                    return ResponseDto<CredentialResponseDTO>.Fail("Something went wrong payload 1", (int)HttpStatusCode.InternalServerError);
                 }
 
                 var user = await _userManager.FindByEmailAsync(payLoad.Email);
@@ -248,7 +248,7 @@ namespace BudgetBuddy.Core.Services
             catch (Exception ex)
             {
                 _logger.Error("ERROR: ", ex.Message);
-                return ResponseDto<CredentialResponseDTO>.Fail("something went wrong", (int)HttpStatusCode.InternalServerError);
+                return ResponseDto<CredentialResponseDTO>.Fail($"{ex.Message}", (int)HttpStatusCode.InternalServerError);
             }
 
         }
