@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddy.Core", "BudgetB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddy.Domain", "BudgetBuddy.Domain\BudgetBuddy.Domain.csproj", "{10752504-12D8-41D1-B6D2-E856B6806870}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBuddy.Infrastructure", "BudgetBuddy.Infrastructure\BudgetBuddy.Infrastructure.csproj", "{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetBuddy.Infrastructure", "BudgetBuddy.Infrastructure\BudgetBuddy.Infrastructure.csproj", "{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C9644490-40C0-4B15-B3D9-EEE1D03B7D0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC00C9E6-C43A-4CB3-83DD-FBF5431B16F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9644490-40C0-4B15-B3D9-EEE1D03B7D0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9644490-40C0-4B15-B3D9-EEE1D03B7D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9644490-40C0-4B15-B3D9-EEE1D03B7D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9644490-40C0-4B15-B3D9-EEE1D03B7D0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

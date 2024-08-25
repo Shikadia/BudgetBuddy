@@ -155,7 +155,7 @@ namespace BudgetBuddy.Core.Services
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return ResponseDto<SignUpResponseDTO>.Fail("An Error occured when creating user", (int)HttpStatusCode.InternalServerError);
+                return ResponseDto<SignUpResponseDTO>.Fail($"Error: {ex.Message}", (int)HttpStatusCode.InternalServerError);
             }
         }
         public async Task<ResponseDto<string>> ChangePassword(ChangePasswordDTO model, string userId)
