@@ -3,7 +3,7 @@ import "./styles.css";
 import { Card, Row } from "antd";
 import Button from "../Button";
 import crying from "../../assets/moneydonefinish.gif";
-import bigBoy from "../../assets/MoneyOnMymind.gif";
+import bigBoy from "../../assets/Money lady.gif";
 
 function Cards({ showExpenseModal, showIncomeModal , income, expenses}) {
 
