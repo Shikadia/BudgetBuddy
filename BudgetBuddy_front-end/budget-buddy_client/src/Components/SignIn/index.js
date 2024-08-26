@@ -104,7 +104,7 @@ const handleForgotPassword = () => {
           <p className="signup-wrapper_p_tag">or</p>
           <Button
             loading={loading}
-            text={"Google Sign Up"}
+            text={"Google Sign In"}
             onClick={googleSignin}
             orange={true}
           />
