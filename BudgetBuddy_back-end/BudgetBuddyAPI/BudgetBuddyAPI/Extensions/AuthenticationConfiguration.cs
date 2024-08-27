@@ -24,15 +24,15 @@ namespace BudgetBuddyAPI.Extensions
                      ValidateLifetime = true,
                      ValidateAudience = true,
                      ValidateIssuerSigningKey = true,
-                     ValidIssuer = jwtConfig.GetSection("Issuer").Value,
-                     ValidAudience = jwtConfig.GetSection("Audience").Value,
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Token")))
+                     ValidIssuer = Environment.GetEnvironmentVariable("Jwt_Issuer"),
+                     ValidAudience = Environment.GetEnvironmentVariable("Jwt_Audience"),
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("Jwt_Token")))
                  };
              })
              .AddGoogle(options =>
              {
-                 options.ClientId = googleConfig.GetSection("ClientId").Value;
-                 options.ClientSecret = googleConfig.GetSection("secret").Value;
+                 options.ClientId = Environment.GetEnvironmentVariable("google_auth_ClientId");
+                 options.ClientSecret = Environment.GetEnvironmentVariable("google_auth_secret");
                  options.CallbackPath = "/auth/google-callback";
              });
         }

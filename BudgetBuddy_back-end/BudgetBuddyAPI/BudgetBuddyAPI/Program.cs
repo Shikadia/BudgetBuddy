@@ -1,10 +1,6 @@
-using AutoMapper;
-using BudgetBuddy.Core.AppSettings;
-using BudgetBuddy.Core.Utilities.AutoMapper;
 using BudgetBuddy.Infrastructure;
 using BudgetBuddyAPI.Extensions;
 using BudgetBuddyAPI.MiddleWares;
-using Microsoft.Extensions.Options;
 using Serilog;
 
 
@@ -37,14 +33,13 @@ var app = builder.Build();
 await BudgetBuddyDbInitializer.Seed(app);
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
+app.UseSwagger();
+app.UseSwaggerUI(setupAction =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(setupAction =>
-    {
-        setupAction.SwaggerEndpoint("/swagger/v1/swagger.json", "BudgetBuddy API");
-    });
-}
+    setupAction.SwaggerEndpoint("/swagger/v1/swagger.json", "BudgetBuddy API");
+});
+
 
 //app.UseHttpsRedirection();
 app.UseCors(x => x

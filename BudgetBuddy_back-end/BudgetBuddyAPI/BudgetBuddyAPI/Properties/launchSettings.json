@@ -5,7 +5,13 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Jwt_Issuer": "http://localhost:5017",
+        "Jwt_Audience": "http://localhost:5017",
+        "Jwt_lifetime": "15",
+        "Jwt_Token": "thisisnotadrill555ajapalakatabutithinkitmaybeadrill",
+        "google_auth_ClientId": "537340714752-uh7vgr2rqcfjrb6g0i7rthise1cj29qf.apps.googleusercontent.com",
+        "google_auth_secret": "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"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5017"

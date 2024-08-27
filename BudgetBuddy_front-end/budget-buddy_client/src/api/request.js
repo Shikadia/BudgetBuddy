@@ -2,8 +2,8 @@ import axios from 'axios'
 
 
 console.log(process.env)
-const AUTH_SERVICE_BASE_URL = process.env.REACT_APP_BUDGET_BUDDY_BASE_URL_DOCKER;
-const USER_SERVICE_BASE_URL = process.env.REACT_APP_BUDGET_BUDDY_BASE_URL_DOCKER;
+const AUTH_SERVICE_BASE_URL = process.env.REACT_APP_BUDGET_BUDDY_BASE_URL_PROD;
+const USER_SERVICE_BASE_URL = process.env.REACT_APP_BUDGET_BUDDY_BASE_URL_PROD;
 
 
 console.log(`Base URL: ${USER_SERVICE_BASE_URL}`);

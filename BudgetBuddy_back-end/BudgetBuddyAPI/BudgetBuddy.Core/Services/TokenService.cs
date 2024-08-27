@@ -40,7 +40,7 @@ namespace BudgetBuddy.Core.Services
                 issuer: _configuration.GetValue<string>("Jwt:Issuer"),
                 audience: _configuration.GetValue<string>("Jwt:Audience"),
                 claims: authClaims,
-                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtConfig.GetSection("lifetime").Value)),
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(Environment.GetEnvironmentVariable("Jwt_lifetime"))),
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256Signature
              ));
 
